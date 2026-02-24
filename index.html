@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaron Nava | Elite Full-Arc Operator</title>
+    <title>Aaron Nava | Growth Architect</title>
 
     <!-- Modern Typography: Inter (Sans) + Playfair Display (Serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,11 +33,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 12vh;
         }
 
         body {
@@ -112,8 +107,7 @@
 
         /* Animated Name Effect */
         .name-wrapper {
-            font-size: clamp(3rem, 10vw, 11rem);
-            /* Reduced to fit */
+            font-size: clamp(4rem, 14vw, 15rem);
             line-height: 0.85;
             margin-left: -0.8vw;
             display: flex;
@@ -183,31 +177,6 @@
         .delay-3 {
             transition-delay: 0.3s;
         }
-
-        .delay-4 {
-            transition-delay: 0.4s;
-        }
-
-        .delay-5 {
-            transition-delay: 0.5s;
-        }
-
-        .delay-6 {
-            transition-delay: 0.6s;
-        }
-
-        .delay-7 {
-            transition-delay: 0.7s;
-        }
-
-        .delay-8 {
-            transition-delay: 0.8s;
-        }
-
-        .delay-9 {
-            transition-delay: 0.9s;
-        }
-
 
         /* Interactive Link Hover */
         a {
@@ -315,11 +284,11 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            transition: all 0.4s ease;
-            background: rgba(237, 235, 230, 0.95);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: transform 0.4s ease;
+        }
+
+        header.nav-hidden {
+            transform: translateY(-100%);
         }
 
         .logo {
@@ -338,39 +307,14 @@
             letter-spacing: 0.05em;
         }
 
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .hamburger span {
-            width: 30px;
-            height: 2px;
-            background-color: var(--text-main);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
         /* --- Hero Section --- */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding-top: 13vh;
-            /* Reduced padding-top */
-            padding-bottom: 2vh;
-            /* Reduced padding-bottom */
+            padding-top: 18vh;
+            padding-bottom: 5vh;
             position: relative;
         }
 
@@ -382,111 +326,43 @@
         }
 
         .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             margin-top: auto;
             z-index: 2;
             padding-top: 6vh;
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            align-items: center;
-            gap: 4vw;
-            width: 100%;
-            flex-grow: 1;
-            margin-top: 2vh;
-        }
-
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 2;
-        }
-
-        .hero-right {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            z-index: 1;
-        }
-
         .positioning {
-            max-width: 50ch;
+            max-width: 45ch;
             font-family: 'Playfair Display', serif;
             font-size: clamp(1.2rem, 1.8vw, 2.2rem);
             line-height: 1.5;
+            padding-left: 2rem;
+            border-left: 2px solid var(--text-main);
         }
 
-        .intro-stack {
+        .positioning strong {
             font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: clamp(0.9rem, 1.2vw, 1.3rem);
-            /* Scaled down slightly */
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.6em;
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 1.5rem;
             color: var(--text-muted);
-            margin-bottom: 2vh;
-            line-height: 1.6;
-        }
-
-        .intro-line {
-            margin-bottom: 1vh;
-        }
-
-        .sig-stack {
-            margin-top: 3vh;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .sig-line {
-            display: inline-block;
-            margin-bottom: 1vh;
-            transition: transform 0.3s ease, color 0.3s ease;
-            transform-origin: left center;
-        }
-
-        .sig-line:nth-child(1) {
-            font-size: 1rem;
-        }
-
-        .sig-line:nth-child(2) {
-            font-size: 1.15rem;
-        }
-
-        .sig-line:nth-child(3) {
-            font-size: 1.3rem;
-        }
-
-        .sig-line:nth-child(4) {
-            font-size: 1.45rem;
-        }
-
-        .sig-line:nth-child(5) {
-            font-size: 1.6rem;
-        }
-
-        .sig-line:nth-child(6) {
-            font-size: 1.6rem;
-        }
-
-        .sig-line:hover {
-            color: var(--accent);
-            transform: scale(1.05);
-        }
-
-        .sig-italic {
-            font-style: italic;
-            margin-top: 3vh;
         }
 
         /* Attached Image Treatment */
         .hero-photo-wrapper {
-            position: relative;
-            width: 100%;
+            position: absolute;
+            top: 12vh;
+            right: 10vw;
+            width: 32vw;
             max-width: 450px;
             aspect-ratio: 4/5;
+            z-index: 1;
             pointer-events: none;
             overflow: hidden;
             border-radius: 2px;
@@ -517,8 +393,6 @@
             overflow: hidden;
             line-height: 1;
             padding: 2vh 0;
-            margin-top: 12vh;
-            /* Pushed further down from CTA */
         }
 
         .marquee-container {
@@ -541,7 +415,7 @@
         }
 
         .marquee span {
-            margin-right: 20vw;
+            margin-right: 5vw;
             color: var(--text-muted);
         }
 
@@ -560,8 +434,8 @@
             width: 100vw;
             overflow: hidden;
             margin-left: calc(-1 * var(--space-vw));
-            margin-bottom: 2vh;
-            padding: 2vh 0;
+            margin-bottom: 8vh;
+            padding: 4vh 0;
             white-space: nowrap;
             pointer-events: none;
         }
@@ -589,7 +463,7 @@
         /* --- The Full Arc --- */
         .full-arc-text p {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.5rem, 2vw, 2.5rem);
+            font-size: clamp(1.1rem, 1.4vw, 1.6rem);
             color: var(--text-main);
             line-height: 1.5;
             margin-bottom: 3.5rem;
@@ -610,7 +484,7 @@
         }
 
         .case-study {
-            padding: 5vh 0;
+            padding: 10vh 0;
             position: relative;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -796,7 +670,7 @@
         }
 
         .timeline li {
-            padding: 4vh 2vw;
+            padding: 4vh 0;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -807,7 +681,7 @@
         }
 
         .timeline li:hover {
-            padding-left: 3vw;
+            padding-left: 1vw;
             background: rgba(0, 0, 0, 0.02);
         }
 
@@ -891,19 +765,10 @@
                 gap: 8vh;
             }
 
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-right {
-                order: -1;
-                /* Move photo above text on mobile */
-                justify-content: center;
-                margin-bottom: 4vh;
-            }
-
             .hero-photo-wrapper {
                 position: relative;
+                top: 0;
+                right: 0;
                 width: 100%;
                 max-width: 100%;
                 aspect-ratio: 1/1;
@@ -949,33 +814,8 @@
 
             /* Defend against horizontal overflow */
 
-            .hamburger {
-                display: flex;
-            }
-
             .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(237, 235, 230, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 5vh;
-                font-size: 1.5rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                z-index: 999;
-            }
-
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: all;
+                display: none;
             }
 
             .text-large {
@@ -1029,7 +869,7 @@
                 gap: 1vh;
                 justify-content: flex-start;
                 align-items: flex-start;
-                padding: 4vh 5vw;
+                padding-left: 1rem;
             }
 
             .timeline li span {
@@ -1037,7 +877,7 @@
             }
 
             .timeline li:hover {
-                padding-left: 5vw;
+                padding-left: 0;
                 background: transparent;
             }
 
@@ -1100,17 +940,11 @@
     <!-- BEGIN: HEADER -->
     <header id="main-header">
         <a href="#hero" class="logo hover-line">Aaron Nava</a>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-        </div>
-        <nav class="nav-links" id="nav-links" style="align-items: center;">
+        <nav class="nav-links">
             <a href="#arc" class="hover-line">The Arc</a>
             <a href="#the-builds" class="hover-line">The Builds</a>
             <a href="#testimonials" class="hover-line">Testimonials</a>
             <a href="#about" class="hover-line">About</a>
-            <a href="files/Aaron_Nava_Resume.pdf" target="_blank" class="btn"
-                style="padding: 0.6rem 1.8rem; margin-top: 0; font-size: 0.75rem;">Resume</a>
         </nav>
     </header>
     <!-- END: HEADER -->
@@ -1118,67 +952,49 @@
     <main>
         <!-- BEGIN: HERO SECTION CONTENT -->
         <section id="hero" class="hero wrapper">
-            <div class="hero-grid">
-                <!-- Left Zone (Copy & Stack) -->
-                <div class="hero-left">
-                    <div class="hero-title-wrap">
-                        <h1 class="name-wrapper" id="animated-name">
-                            <span class="name-text">Aaron</span>
-                            <span class="name-text">Nava</span>
-                        </h1>
-                    </div>
 
-                    <div class="hero-bottom reveal delay-1">
-                        <div class="positioning">
-                            <div class="intro-stack">
-                                <div class="intro-line reveal delay-1">Most executives can close the deal. Or build the
-                                    system.
-                                    Or develop the team.</div>
-                                <div class="intro-line reveal delay-2">Few can do all three. At scale. Without breaking
-                                    what
-                                    matters.</div>
-                                <div class="intro-line reveal delay-3">That's the job. And I've done it four times.
-                                </div>
-                            </div>
-
-                            <div class="sig-stack">
-                                <span class="sig-line reveal delay-4">Close the business.</span>
-                                <span class="sig-line reveal delay-5">Build the systems.</span>
-                                <span class="sig-line reveal delay-6">Develop the teams.</span>
-                                <span class="sig-line reveal delay-7">Protect the culture.</span>
-                                <span class="sig-line reveal delay-8">Preserve the margin.</span>
-                                <span class="sig-line sig-italic reveal delay-9">That's how I work.</span>
-                            </div>
-                        </div>
-                        <div style="padding-top:20px;">
-                            <a href="#contact" class="btn reveal delay-9">Let's Talk</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Zone (Photo) -->
-                <div class="hero-right">
-                    <div class="hero-photo-wrapper reveal">
-                        <div class="hero-photo-container">
-                            <img src="files/IMG_2170.JPG" alt="Aaron Nava Portrait">
-                        </div>
-                    </div>
+            <div class="hero-photo-wrapper reveal">
+                <div class="hero-photo-container">
+                    <img src="IMG_2170.JPG" alt="Aaron Nava Portrait">
                 </div>
             </div>
 
-            <div class="marquee-wrapper">
+            <!-- Animated Name -->
+            <div class="hero-title-wrap">
+                <h1 class="name-wrapper" id="animated-name">
+                    <!-- Javascript will split this into animated spans -->
+                    <span class="name-text">Aaron</span>
+                    <span class="name-text">Nava</span>
+                </h1>
+            </div>
+
+            <div class="hero-bottom reveal delay-1">
+                <div class="positioning">
+                    <strong>The Positioning</strong>
+                    I close major business.<br>Build the systems.<br>Develop the teams.<br>Protect the
+                    culture.<br>Preserve the margin.<br>
+                    <span class="italic">That's how I work.</span>
+                </div>
+                <div style="padding-top:20px;">
+                    <a href="#contact" class="btn">Let's Talk</a>
+                </div>
+            </div>
+
+            <div class="marquee-wrapper reveal delay-2">
                 <div class="marquee-container">
                     <div class="marquee">
-                        <span>Elite Full-Arc Operator</span><span>•</span>
+                        <span>Operator. Hunter. Closer. Architect.</span><span>•</span>
+                        <span>$35M to $115M. Four Years. Four Continents.</span><span>•</span>
                         <span>15 Years of Building</span><span>•</span>
                         <span>85% Win Rate</span><span>•</span>
                         <span>Bilingual. Bicultural.</span><span>•</span>
-                        <span>Building Systems That Run Without Me</span><span>•</span>
-                        <span>Elite Full-Arc Operator</span><span>•</span>
+                        <span>I Build. It Scales. It Stays.</span><span>•</span>
+                        <span>Operator. Hunter. Closer. Architect.</span><span>•</span>
+                        <span>$35M to $115M. Four Years. Four Continents.</span><span>•</span>
                         <span>15 Years of Building</span><span>•</span>
                         <span>85% Win Rate</span><span>•</span>
                         <span>Bilingual. Bicultural.</span><span>•</span>
-                        <span>Building Systems That Run Without Me</span><span>•</span>
+                        <span>I Build. It Scales. It Stays.</span><span>•</span>
                     </div>
                 </div>
             </div>
@@ -1197,30 +1013,22 @@
                 </div>
                 <div class="full-arc-text">
                     <!-- CHANGE 1: Full Arc Positioning Refinement -->
-                    <p class="reveal">Most people are built for one thing. I was built for all of it.</p>
-                    <p class="inter-text reveal delay-1">Before a pitch begins, someone has to make the case for why
-                        your agency belongs in the room. That's where I thrive. The hard questions, the honest answers,
-                        the moment where trust either forms or it doesn't. 90% of those conversations turn into a formal
-                        invitation to pitch. Then we win <span class="count-up metric-highlight"
-                            data-target="85">0</span>% of those.</p>
+                    <p class="reveal">I'm brought in to close major opportunities. $3M-$20M formal RFP processes. Once
+                        I'm in the room, I have a <span class="font-serif italic metric-highlight">90% conversion
+                            rate</span> from first call to RFP invitation, and an <span class="metric-highlight">85% win
+                            rate</span> on the deal itself.</p>
+                    <p class="inter-text reveal delay-1">I focus on closing what matters, not chasing every opportunity.
+                        I understand what's possible. I promise things we can actually deliver.</p>
 
-                    <p class="inter-text reveal delay-2">We're talking $1.5M to $20M deals. The kind that change a
-                        company's trajectory.</p>
+                    <p class="reveal mt-4">But closing is only half the story. I build the operational systems that let
+                        complex organizations deliver on those promises. I've scaled from <span
+                            class="metric-highlight">6 people to 1,200</span>.</p>
+                    <p class="inter-text reveal delay-1">I've integrated 33 agencies into one operating model. I've
+                        grown a $20M capability to $115M while maintaining 15-20% organic growth for four consecutive
+                        years. These aren't accidents. They're systems.</p>
 
-                    <p class="inter-text reveal delay-3">But I never promise what we can't deliver. Not for integrity's
-                        sake alone. Because promising the wrong thing is how you win once and lose everything after.</p>
-
-                    <p class="inter-text reveal delay-1 mt-4">After the close comes the harder work. I build the systems
-                        that let organizations actually deliver on what they just won. I've taken teams from 6 people to
-                        1,200. Grown a $35M capability to $115M. Maintained 15-20% organic growth for four straight
-                        years. Across 33 acquired agencies, I unified the go-to-market, the messaging, and the way we
-                        showed up to clients. One voice. One narrative. One way to win.</p>
-
-                    <p class="inter-text reveal delay-2">None of that happened by accident.</p>
-
-                    <p class="inter-text reveal delay-3 mt-4">And when it's running, I develop the people who can take
-                        it from there. Because the real measure isn't what happens when I'm in the room. It's what
-                        happens after I leave.</p>
+                    <p class="reveal mt-4">I develop the people who can run these systems independently. Because the
+                        real win is when you can hand it off and it keeps working without you.</p>
                 </div>
             </div>
         </section>
@@ -1231,14 +1039,20 @@
         <!-- END: VISUAL ACCENT -->
 
         <!-- BEGIN: THE BUILDS CONTENT (Formerly Case Studies) -->
-        <section class="the-builds wrapper section-padding">
+        <section id="the-builds" class="the-builds wrapper section-padding" style="padding-top:0;">
 
             <div class="scroll-highlight-container reveal">
-                <div class="scroll-highlight" id="builds-highlight">THE BUILDS — THE BUILDS — THE BUILDS</div>
+                <div class="scroll-highlight" id="builds-highlight"
+                    style="display: inline-flex; flex-direction: column; line-height: 1.1;">
+                    <span>THE BUILDS</span>
+                    <span
+                        style="font-size: 0.25em; font-family: 'Inter', sans-serif; letter-spacing: normal; text-transform: none; font-weight: 400; color: rgba(0, 0, 0, 0.4); padding-top: 15px;">from
+                        six people to 1,200. here's what that actually looked like.</span>
+                </div>
             </div>
 
             <!-- CHANGE 2: Phase 1 Structure & CHANGE 3: Circus Opening REWRITTEN -->
-            <div id="the-builds" class="case-study reveal">
+            <div class="case-study reveal">
                 <div class="build-phase">PHASE 1: THE BUILDS — Circus (2017-2019: Building from Zero)</div>
                 <div class="grid grid-1-2" style="margin-top: 3vh;">
                     <div>
@@ -1247,39 +1061,34 @@
                     <div>
                         <div class="cs-metrics reveal delay-1">
                             <span>Time: 2 Years</span>
-                            <span>Scale: <span class="metric-highlight"><span class="count-up" data-target="6">0</span>
-                                    to <span class="count-up" data-target="100">0</span>+</span> People</span>
-                            <span>Rev: <span class="metric-highlight">$<span class="count-up" data-target="5">0</span>M
-                                    to $<span class="count-up" data-target="30">0</span>M+</span></span>
+                            <span>Scale: <span class="metric-highlight">6 to 100+</span> People</span>
+                            <span>Rev: <span class="metric-highlight">$5M to $30M+</span></span>
                         </div>
 
                         <div class="cs-content reveal delay-2">
                             <h3>The Situation</h3>
-                            <p class="body-text">Circus had offices across LATAM. The US operation was six people and
-                                small accounts. The opportunity was wide open. The mandate was simple: grow the US
-                                footprint and prove we could compete at the highest level.</p>
-                            <p class="body-text">I didn't just believe in the vision. I saw exactly how to build it.</p>
+                            <p class="body-text">I met the CEO of Circus and something clicked. He had a vision I
+                                believed in. We built something amazing from scratch in the US.</p>
+                            <p class="body-text">Circus had offices in Mexico and Argentina. But the US? That was blank.
+                                Six people. Small accounts. We needed to prove to major brands that we could deliver at
+                                scale.</p>
 
                             <h3>The Build</h3>
-                            <p class="body-text">It started with Spotify. I inherited the account and immediately saw
-                                what it could become. I grew it from a single relationship into a full Social AOR
-                                partnership. When the opportunity came to lead the launch of Viva Latino — one of
-                                Spotify's most significant platform initiatives at the time — we were ready. Not because
-                                we got lucky. Because we'd spent months positioning ourselves as the only logical
-                                choice.</p>
-                            <p class="body-text">That became the playbook. Cultural fluency as a competitive advantage.
-                                Social-first thinking as the entry point. Find the gap in an existing relationship,
-                                bring multicultural relevance and creative depth, and expand from there.</p>
-                            <p class="body-text">Then came California Lottery. A formal government RFP. Six months of
-                                competing against agencies twice our size. When we won, it changed everything. It proved
-                                that a six-person US office could walk into any room and compete at any level.</p>
-                            <p class="body-text">Two years. 6 people to 100. $5M to $30M+. Ready for acquisition.</p>
+                            <!-- CHANGE 4: Spotify Language Refinement -->
+                            <p class="body-text">I inherited Spotify accounts in the US and saw a bigger opportunity. I
+                                grew those relationships into a Social AOR partnership. We positioned ourselves to lead
+                                the launch of Viva Latino, one of Spotify's biggest platform initiatives, and that
+                                became the blueprint for how we approached account expansion—finding gaps in existing
+                                relationships and filling them with strategic capabilities.</p>
+                            <!-- CHANGE 5: California Lottery Positioning -->
+                            <p class="body-text">Then California Lottery. A formal government RFP. Six months. When we
+                                won, it changed everything. A five-year contract. Forecasting certainty. This win proved
+                                we could deliver at scale.</p>
                         </div>
 
                         <div class="cs-outcome reveal">
-                            The culture was the foundation. The operating engine was what scaled it. High-performance
-                            teams, repeatable systems, and a relentless focus on client outcomes. That's not a startup
-                            story. That's a blueprint.
+                            Startup mindset + operational rigor + relentless focus on client outcomes = sustainable
+                            growth. Culture compounds. Process matters.
                         </div>
                     </div>
                 </div>
@@ -1295,11 +1104,8 @@
                     <div>
                         <div class="cs-metrics reveal delay-1">
                             <span>Time: 4-5 Years</span>
-                            <span>Scale: <span class="metric-highlight"><span class="count-up"
-                                        data-target="150">0</span> to <span class="count-up"
-                                        data-target="1200">0</span></span> People</span>
-                            <span>Rev: <span class="metric-highlight">$<span class="count-up" data-target="35">0</span>M
-                                    to $<span class="count-up" data-target="115">0</span>M+</span></span>
+                            <span>Scale: <span class="metric-highlight">150 to 1,200</span> People</span>
+                            <span>Rev: <span class="metric-highlight">$25M to $115M+</span></span>
                         </div>
 
                         <div class="cs-content reveal delay-2">
@@ -1310,27 +1116,21 @@
                                 ground up.</p>
                             <p class="body-text">Thirty-three agency founders. Each with their own identity, their own
                                 clients, their own way of winning. The capability was fragmented across regions and
-                                teams that had no reason to trust each other yet.</p>
-                            <p class="body-text">The mandate: unify the go-to-market. Build one coherent capability.
-                                Make sure that when we walked into a room, we walked in as one.</p>
+                                teams that had no reason to trust each other yet. The mandate: unify the go-to-market.
+                                Build one coherent capability. Make sure that when we walked into a room, we walked in
+                                as one.</p>
 
-                            <h3>The Build</h3>
+                            <h3>The Execution</h3>
                             <p class="body-text">I started by listening. Not presenting. Not forcing. I asked questions.
                                 I learned how each team worked, what they knew about their clients, where the real
-                                expertise lived. Trust came before alignment. It had to.</p>
-                            <p class="body-text">The resistance was real. Founders protect what they built. That's not a
-                                flaw, it's human. But after a year, the data broke through what conversation couldn't.
-                                Better qualification meant fewer pitches and higher close rates. Bigger opportunities
-                                meant bigger deals. The win rate climbed to <span class="count-up"
-                                    data-target="85">0</span>%. The math became the argument.</p>
+                                expertise lived. Trust came before alignment. It had to. The resistance was real.
+                                Founders protect what they built. That's not a flaw, it's human. But after a year, the
+                                data broke through what conversation couldn't. Better qualification meant fewer pitches
+                                and higher close rates. The win rate climbed to 85%. The math became the argument.</p>
                             <p class="body-text">Then came the global build. NAMER. LATAM. APAC. EMEA. I wasn't
                                 overseeing it from a distance. I was building it from the ground up. First hires. First
                                 freelancers. Leadership teams built region by region, role by role. Every market started
-                                the same way — with the right people and a clear system for how we win.</p>
-                            <p class="body-text">Over time, something shifted. We had built a reputation as a
-                                world-class social-first organization. Clients started coming to us. Connections inside
-                                an 8,500-person global network would surface opportunities and route them our way. The
-                                pipeline filled itself because the work earned it.</p>
+                                the same way, with the right people and a clear system for how we win.</p>
                             <p class="body-text">For three consecutive years I personally anchored 22 to 25 major global
                                 pursuits annually. We grew from $35M to $115M in revenue. Our capability became the
                                 second highest revenue driver for the entire organization. At our peak, 1,200 people.
@@ -1339,9 +1139,9 @@
 
                         <div class="cs-outcome reveal">
                             Here's what I learned at that scale: you can't manage your way to $115M. You need the pirate
-                            ship model — fast, fearless, high performers who don't wait for permission. But you also
-                            need the structure that makes it repeatable. Most organizations pick one. We refused to.
-                            That tension is what drove us. And that's exactly what made it scale.
+                            ship model, fast, fearless, high performers who don't wait for permission. But you also need
+                            the structure that makes it repeatable. Most organizations pick one. We refused to. That
+                            tension is what drove us. And that's exactly what made it scale.
                         </div>
                     </div>
                 </div>
@@ -1356,62 +1156,34 @@
                         Say</span></h2>
 
                 <div class="test-list">
-                    <div class="test-item reveal delay-1">
-                        <div class="test-label"
-                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
-                            ON WINNING BUSINESS</div>
+                    <div class="test-item grid grid-1-2 reveal">
+                        <div class="test-meta">
+                            <div class="test-author">Federico Duran</div>
+                            <div class="test-title">SVP Executive Creative Director at Monks</div>
+                        </div>
                         <div class="test-quote">When pitches get intense, Aaron stays calm, focused, and constructive.
                             He understands both the creative and business sides, which is rare.</div>
-                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
-                            <div class="test-author"
-                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Federico Duran,
-                                <span style="opacity: 0.7;">SVP ECD at Monks</span>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="test-item reveal delay-2">
-                        <div class="test-label"
-                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
-                            ON LEADING UNDER PRESSURE</div>
-                        <div class="test-quote">After seven years of working alongside Aaron, I can confidently say he
-                            is an exceptional leader. He thrives in the chaos of new business, bringing a calm and
-                            collaborative presence to every project. He has a unique ability to keep large teams aligned
-                            under pressure. He is the kind of person you want in the room when it matters.</div>
-                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
-                            <div class="test-author"
-                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Michelle
-                                Cunningham, <span style="opacity: 0.7;">Google Marketing Platform</span></div>
+                    <!-- CHANGE 8: Eric Shamlin Update -->
+                    <div class="test-item grid grid-1-2 reveal">
+                        <div class="test-meta">
+                            <div class="test-author">Eric W. Shamlin</div>
+                            <div class="test-title">Founder, Governor, Advisor & Speaker | Multi Award-Winning | AI
+                                Studio Head | ex AI Agency of the Year | ex Apple, Omnicom, eOne, Monks, Marine, and
+                                Journalist</div>
                         </div>
-                    </div>
-
-                    <div class="test-item reveal delay-3">
-                        <div class="test-label"
-                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
-                            ON BUILDING TEAMS</div>
-                        <div class="test-quote">Aaron is a true class act: calm when things are on edge, committed to
-                            the work, and deeply trusted by the people around him.</div>
-                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
-                            <div class="test-author"
-                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Lara Burniston,
-                                <span style="opacity: 0.7;">SVP Global Head of Business Transformation and
-                                    Engagement</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="test-item reveal delay-4">
-                        <div class="test-label"
-                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
-                            ON SEEING WHAT OTHERS MISS</div>
                         <div class="test-quote">You truly see the connections others miss. The work you didn't want to
                             be appreciated for was the work we benefited from the most.</div>
-                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
-                            <div class="test-author"
-                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Eric W. Shamlin,
-                                <span style="opacity: 0.7;">Founder / Ex Monks</span>
-                            </div>
+                    </div>
+
+                    <div class="test-item grid grid-1-2 reveal">
+                        <div class="test-meta">
+                            <div class="test-author">Lara Burniston</div>
+                            <div class="test-title">Leader of Teams</div>
                         </div>
+                        <div class="test-quote">Aaron is a true class act: calm when things are on edge, committed to
+                            the work, and deeply trusted by the people around him.</div>
                     </div>
                 </div>
             </div>
@@ -1419,61 +1191,13 @@
         <!-- END: TESTIMONIALS CONTENT -->
 
         <!-- BEGIN: 150+ BRANDS CONTENT -->
-        <section id="brands" class="brands-section" style="padding-bottom:120px;">
-            <div style="border-top: 1px solid var(--border-color); margin-bottom: 2rem; width: 100%;"></div>
-            <h2 class="brands-title reveal" style="text-transform: none; font-size: 1.2rem; font-weight: 500;">
-                150+ brands. Every category. Every scale. One standard.
-            </h2>
-            <div class="marquee-wrapper" style="margin-top: 4vh; border-top: none; border-bottom: none;">
-                <div class="marquee-container" style="border-top: none; border-bottom: none;">
-                    <div class="marquee"
-                        style="font-weight: 500; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: none;">
-                        <span>Google</span><span>•</span>
-                        <span>Spotify</span><span>•</span>
-                        <span>Netflix</span><span>•</span>
-                        <span>Amazon Music</span><span>•</span>
-                        <span>General Mills</span><span>•</span>
-                        <span>GM</span><span>•</span>
-                        <span>Dole</span><span>•</span>
-                        <span>Megamex</span><span>•</span>
-                        <span>California Lottery</span><span>•</span>
-                        <span>BJ's Restaurants</span><span>•</span>
-                        <span>Stellantis</span><span>•</span>
-                        <span>Toyota</span><span>•</span>
-                        <span>Jeep</span><span>•</span>
-                        <span>Fiat</span><span>•</span>
-                        <span>Chrysler Pacifica</span><span>•</span>
-                        <span>Dodge</span><span>•</span>
-                        <span>Maker's Mark</span><span>•</span>
-                        <span>PayPal</span><span>•</span>
-                        <span>Robinhood</span><span>•</span>
-                        <span>Chime</span><span>•</span>
-                        <span>and 130+ more</span><span>•</span>
-                        <!-- Second iteration for seamless loop -->
-                        <span>Google</span><span>•</span>
-                        <span>Spotify</span><span>•</span>
-                        <span>Netflix</span><span>•</span>
-                        <span>Amazon Music</span><span>•</span>
-                        <span>General Mills</span><span>•</span>
-                        <span>GM</span><span>•</span>
-                        <span>Dole</span><span>•</span>
-                        <span>Megamex</span><span>•</span>
-                        <span>California Lottery</span><span>•</span>
-                        <span>BJ's Restaurants</span><span>•</span>
-                        <span>Stellantis</span><span>•</span>
-                        <span>Toyota</span><span>•</span>
-                        <span>Jeep</span><span>•</span>
-                        <span>Fiat</span><span>•</span>
-                        <span>Chrysler Pacifica</span><span>•</span>
-                        <span>Dodge</span><span>•</span>
-                        <span>Maker's Mark</span><span>•</span>
-                        <span>PayPal</span><span>•</span>
-                        <span>Robinhood</span><span>•</span>
-                        <span>Chime</span><span>•</span>
-                        <span>and 130+ more</span><span>•</span>
-                    </div>
-                </div>
-            </div>
+        <section id="brands" class="brands-section">
+            <h2 class="brands-title reveal">150+ Brands</h2>
+            <p class="brands-text reveal delay-1">
+                Google, Spotify, Netflix, Amazon Music, General Mills, GM, Dole, Megamex, California Lottery, BJ's
+                Restaurants, Stellantis, Toyota, Jeep, Fiat, Chrysler Pacifica, Dodge, Maker's Mark, PayPal, Robinhood,
+                Chime, and 130+ more.
+            </p>
         </section>
         <!-- END: 150+ BRANDS CONTENT -->
 
@@ -1492,9 +1216,9 @@
                     </ul>
                 </div>
                 <div>
-                    <p class="body-text reveal delay-1"><span class="italic">Some people manage the business. Some
-                            people build it. I've always been more interested in the architecture.</span></p>
-                    <p class="body-text reveal delay-2">Four builds. Each one bigger, messier, and more complex than the
+                    <p class="body-text reveal delay-1">Some people manage the business. Some people build it. I've
+                        always been more interested in the architecture.</p>
+                    <p class="body-text reveal delay-2">Four builds. Each one bigger, harder, and more complex than the
                         last. Conill taught me how to launch a new capability from scratch inside an existing
                         organization. How to find the white space, build the case, and turn a blank mandate into a
                         revenue line. Joe Agency taught me the P&L the hard way, which is the only way it actually
@@ -1502,28 +1226,28 @@
                         that could walk into any room and win. Monks was the global enterprise test. The one where the
                         stakes are real, the teams span continents, and the margin for error gets very small, very fast.
                     </p>
-                    <p class="body-text reveal delay-3">Each one left me with something the previous one couldn't teach.
-                        That's always been the point.</p>
-                    <p class="body-text reveal delay-4">Here's what I've learned about building teams that most people
+                    <p class="body-text reveal delay-3">Here's what I've learned about building teams that most people
                         figure out too late: the goal was never to be needed. The goal was always to make yourself
                         unnecessary. Build the right people, give them the right systems, and get out of their way. The
                         ones who figure that out early build things that last. The ones who don't become the bottleneck.
                     </p>
-                    <p class="body-text reveal delay-5">I've also learned that profit is the outcome, not the objective.
-                        Get the people right. Build something worth delivering. Earn the right partners. The numbers
-                        take care of themselves. Every time.</p>
-                    <p class="body-text reveal delay-6 mt-4">Culture isn't a targeting parameter for me. It's how I
+                    <p class="body-text reveal delay-4">I've also learned that profit is the outcome, not the objective.
+                        But you still have to go get it. I've always been drawn to the hunt, finding the opportunity
+                        before it's obvious, making the case before anyone asked, turning a conversation into a
+                        commitment. 85% of the pitches we ran, we won. That doesn't happen by accident. It happens
+                        because you build the kind of organization that knows how to grow, and then you go out and prove
+                        it every single day.</p>
+                    <p class="body-text reveal delay-5 mt-4">Culture isn't a targeting parameter for me. It's how I
                         think. I'm bilingual, bicultural, and I've built campaigns for Hispanic audiences at the highest
-                        level — for brands like Toyota, Dodge, Spotify, and California Lottery. I don't need a brief to
+                        level for brands like Toyota, Dodge, Spotify, and California Lottery. I don't need a brief to
                         understand the market. I am the market.</p>
-                    <p class="body-text reveal delay-7 mt-4">I've been deep in AI for a while now. Not as an observer,
-                        but as
-                        a builder. I was part of the team that integrated Monks.flow into our capability, connecting AI
-                        infrastructure across a global organization. I've built agentic workflows inside live teams. I
-                        hold an MIT certification in AI and Business Strategy. But more than credentials, I have a point
-                        of view: the role of the pure specialist is shrinking. The next generation of high performers
-                        will be generalists who know how to direct, manage, and scale AI agents. That shift is already
-                        underway. And I'm already building for it.</p>
+                    <p class="body-text reveal delay-6 mt-4">I've been deep in AI for a while now. Not as an observer,
+                        but as a builder. I was part of the team that integrated Monks.flow into our capability,
+                        connecting AI infrastructure across a global organization. I've built agentic workflows inside
+                        live teams. I hold an MIT certification in AI and Business Strategy. But more than credentials,
+                        I have a point of view: the role of the pure specialist is shrinking. The next generation of
+                        high performers will be generalists who know how to direct, manage, and scale AI agents. That
+                        shift is already underway. And I'm already building for it.</p>
                     <p class="body-text reveal delay-7"><span class="italic">The machine that runs without you. That's
                             always been the goal.</span></p>
                 </div>
@@ -1538,8 +1262,7 @@
             </a>
 
             <p class="body-text contact-copy wrapper reveal">
-                The best conversations I've had started with someone saying "we have a problem we can't quite solve." If
-                that's where you are, I'd love to hear it.
+                If you're looking to scale without the chaos, close bigger deals, or fix what's broken, let's connect.
             </p>
 
             <!-- CHANGE 9: Contact Info Update -->
@@ -1550,7 +1273,7 @@
             </div>
 
             <footer class="footer-bottom">
-                <div class="copyright">© 2025 Aaron Nava</div>
+                <div class="copyright">© 2026 Aaron Nava</div>
                 <div class="footer-links">
                     <a href="mailto:nava.aaron@gmail.com" class="hover-line" style="margin-right:2vw;">Email</a>
                     <a href="https://www.linkedin.com/in/anava" target="_blank" rel="noopener noreferrer"
@@ -1647,29 +1370,6 @@
                         ctx.fill();
                     }
                 }
-
-                // --- Draw the precise center pointer dot ---
-                if (mouse.x > 0 && mouse.y > 0 && mouse.x !== -1000) {
-                    const isDark = document.body.classList.contains('dark-mode-section');
-
-                    // Gentle, continuous heartbeat pulse for the outer ring
-                    const time = Date.now() * 0.003;
-                    const pulseRing = Math.sin(time) * 1.5 + 11.5; // Oscillates gently from 10 to 13 radius
-
-                    // Outer pulsing ring
-                    ctx.beginPath();
-                    ctx.arc(mouse.x, mouse.y, pulseRing, 0, Math.PI * 2);
-                    ctx.strokeStyle = isDark ? 'rgba(244, 242, 237, 0.3)' : 'rgba(17, 16, 15, 0.3)';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-
-                    // Solid sharp center dot
-                    ctx.beginPath();
-                    ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
-                    ctx.fillStyle = isDark ? '#F4F2ED' : '#11100F';
-                    ctx.fill();
-                }
-
                 requestAnimationFrame(drawNodes);
             }
 
@@ -1715,37 +1415,6 @@
                 observer.observe(el);
             });
 
-            // --- Number Count Up Animations ---
-            const countUpObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                        entry.target.classList.add('counted');
-                        const targetStr = entry.target.getAttribute('data-target');
-                        if (!targetStr) return;
-
-                        const target = parseInt(targetStr, 10);
-                        const duration = 1500; // ms
-                        const frameRate = 30; // frames per sec
-                        const totalFrames = Math.round((duration / 1000) * frameRate);
-                        const increment = target / totalFrames;
-                        let frame = 0;
-
-                        const counter = setInterval(() => {
-                            frame++;
-                            let current = Math.round(increment * frame);
-                            // Format number with commas
-                            entry.target.innerText = current.toLocaleString();
-                            if (frame === totalFrames) {
-                                entry.target.innerText = target.toLocaleString();
-                                clearInterval(counter);
-                            }
-                        }, 1000 / frameRate);
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.count-up').forEach(el => countUpObserver.observe(el));
-
             // --- Scroll Highlight Parallax Text ("The Builds") ---
             const scrollHighlight = document.getElementById('builds-highlight');
             if (scrollHighlight) {
@@ -1766,6 +1435,15 @@
 
             window.addEventListener('scroll', () => {
                 const currentScroll = window.pageYOffset;
+                if (currentScroll <= 0) {
+                    header.classList.remove('nav-hidden');
+                    return;
+                }
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    header.classList.add('nav-hidden');
+                } else {
+                    header.classList.remove('nav-hidden');
+                }
                 lastScroll = currentScroll;
             });
 
@@ -1777,23 +1455,6 @@
                 });
                 darkSection.addEventListener('mouseleave', () => {
                     document.body.classList.remove('dark-mode-section');
-                });
-            }
-
-            // --- Mobile Hamburger Menu ---
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('nav-links');
-            if (hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
-                    hamburger.classList.toggle('active');
-                    navLinks.classList.toggle('active');
-                });
-
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    });
                 });
             }
         });
