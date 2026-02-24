@@ -1588,6 +1588,25 @@
                         ctx.fill();
                     }
                 }
+
+                // --- Draw the precise center pointer dot ---
+                if (mouse.x > 0 && mouse.y > 0 && mouse.x !== -1000) {
+                    const isDark = document.body.classList.contains('dark-mode-section');
+
+                    // Outer subtle ring
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, 10, 0, Math.PI * 2);
+                    ctx.strokeStyle = isDark ? 'rgba(244, 242, 237, 0.3)' : 'rgba(17, 16, 15, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    // Solid sharp center dot
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = isDark ? '#F4F2ED' : '#11100F';
+                    ctx.fill();
+                }
+
                 requestAnimationFrame(drawNodes);
             }
 
