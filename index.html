@@ -338,6 +338,29 @@
             letter-spacing: 0.05em;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
         /* --- Hero Section --- */
         .hero {
             min-height: 100vh;
@@ -926,8 +949,33 @@
 
             /* Defend against horizontal overflow */
 
+            .hamburger {
+                display: flex;
+            }
+
             .nav-links {
-                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(237, 235, 230, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5vh;
+                font-size: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
             }
 
             .text-large {
@@ -1052,7 +1100,11 @@
     <!-- BEGIN: HEADER -->
     <header id="main-header">
         <a href="#hero" class="logo hover-line">Aaron Nava</a>
-        <nav class="nav-links" style="align-items: center;">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-links" id="nav-links" style="align-items: center;">
             <a href="#arc" class="hover-line">The Arc</a>
             <a href="#the-builds" class="hover-line">The Builds</a>
             <a href="#testimonials" class="hover-line">Testimonials</a>
@@ -1120,10 +1172,12 @@
                         <span>Elite Full-Arc Operator</span><span>•</span>
                         <span>15 Years of Building</span><span>•</span>
                         <span>85% Win Rate</span><span>•</span>
+                        <span>Bilingual. Bicultural.</span><span>•</span>
                         <span>Building Systems That Run Without Me</span><span>•</span>
                         <span>Elite Full-Arc Operator</span><span>•</span>
                         <span>15 Years of Building</span><span>•</span>
                         <span>85% Win Rate</span><span>•</span>
+                        <span>Bilingual. Bicultural.</span><span>•</span>
                         <span>Building Systems That Run Without Me</span><span>•</span>
                     </div>
                 </div>
@@ -1593,9 +1647,13 @@
                 if (mouse.x > 0 && mouse.y > 0 && mouse.x !== -1000) {
                     const isDark = document.body.classList.contains('dark-mode-section');
 
-                    // Outer subtle ring
+                    // Gentle, continuous heartbeat pulse for the outer ring
+                    const time = Date.now() * 0.003;
+                    const pulseRing = Math.sin(time) * 1.5 + 11.5; // Oscillates gently from 10 to 13 radius
+
+                    // Outer pulsing ring
                     ctx.beginPath();
-                    ctx.arc(mouse.x, mouse.y, 10, 0, Math.PI * 2);
+                    ctx.arc(mouse.x, mouse.y, pulseRing, 0, Math.PI * 2);
                     ctx.strokeStyle = isDark ? 'rgba(244, 242, 237, 0.3)' : 'rgba(17, 16, 15, 0.3)';
                     ctx.lineWidth = 1;
                     ctx.stroke();
@@ -1714,6 +1772,23 @@
                 });
                 darkSection.addEventListener('mouseleave', () => {
                     document.body.classList.remove('dark-mode-section');
+                });
+            }
+
+            // --- Mobile Hamburger Menu ---
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
                 });
             }
         });
