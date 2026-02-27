@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaron Nava | Elite Full-Arc Operator</title>
+
+    <!-- Modern Typography: Inter (Sans) + Playfair Display (Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* CSS Reset & Elite Variables */
+        :root {
+            /* Warm paper base with soft lighting */
+            --bg-primary: #EDEBE6;
+            --bg-dark: #1A1A1A;
+            --text-main: #11100F;
+            --text-light: #F4F2ED;
+            --text-muted: #4A4A4A;
+            --accent: #C2B39B;
+            /* Extra generous outer spacing */
+            --space-vw: 10vw;
+            --space-vh: 15vh;
+            --border-color: rgba(17, 16, 15, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 12vh;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            /* Radial gradient adds depth to the "paper" */
+            background-image: radial-gradient(circle at 50% 0%, #F9F8F6 0%, transparent 60%);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            cursor: none;
+            /* Hide default for custom cursor */
+        }
+
+        /* --- Powerful Noise Texture Overflow --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            /* Increased opacity for noticeable texture */
+            opacity: 0.15;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* --- Custom Cursor (Connecting Nodes Overlay) --- */
+        #nodes-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .dark-mode-section~#nodes-canvas {
+            mix-blend-mode: difference;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+            text-transform: none;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .text-large {
+            font-size: clamp(3rem, 7vw, 9rem);
+        }
+
+        /* Animated Name Effect */
+        .name-wrapper {
+            font-size: clamp(3rem, 10vw, 11rem);
+            /* Reduced to fit */
+            line-height: 0.85;
+            margin-left: -0.8vw;
+            display: flex;
+            flex-direction: column;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: var(--text-main);
+        }
+
+        .name-row {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .name-char {
+            transform: translateY(110%);
+            animation: slideUpChar 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUpChar {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Modern Typography Margins - Indentation from the edge */
+        .body-text,
+        .inter-text {
+            font-size: clamp(1.1rem, 1.4vw, 1.6rem);
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 50ch;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            /* Central padding requested by user */
+            padding-left: 2rem;
+            border-left: 1px solid var(--border-color);
+        }
+
+        /* Bold Metrics */
+        .metric-highlight {
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        /* --- Animations & Interactions --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        .delay-5 {
+            transition-delay: 0.5s;
+        }
+
+        .delay-6 {
+            transition-delay: 0.6s;
+        }
+
+        .delay-7 {
+            transition-delay: 0.7s;
+        }
+
+        .delay-8 {
+            transition-delay: 0.8s;
+        }
+
+        .delay-9 {
+            transition-delay: 0.9s;
+        }
+
+
+        /* Interactive Link Hover */
+        a {
+            color: inherit;
+            text-decoration: none;
+            position: relative;
+            cursor: none;
+            display: inline-block;
+        }
+
+        .hover-line {
+            overflow: hidden;
+        }
+
+        .hover-line::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            transform: translateX(-101%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hover-line:hover::after {
+            transform: translateX(0);
+        }
+
+        /* sophisticated advanced button hover */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 3rem;
+            margin-top: 1rem;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            border-radius: 100px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: none;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--text-main);
+            z-index: -1;
+            border-radius: 50%;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease;
+        }
+
+        .btn:hover {
+            color: var(--text-light);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover::before {
+            top: 0;
+            transform: scaleY(1.5);
+            border-radius: 0;
+        }
+
+        /* Layout */
+        .wrapper {
+            padding: 0 var(--space-vw);
+        }
+
+        .section-padding {
+            padding: var(--space-vh) 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: calc(var(--space-vw) * 0.5);
+        }
+
+        .grid-1-2 {
+            grid-template-columns: 1fr 1.5fr;
+        }
+
+        /* Header Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2vw var(--space-vw);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.4s ease;
+            background: rgba(237, 235, 230, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4vw;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: 13vh;
+            /* Reduced padding-top */
+            padding-bottom: 2vh;
+            /* Reduced padding-bottom */
+            position: relative;
+        }
+
+        .hero-title-wrap {
+            position: relative;
+            z-index: 2;
+            mix-blend-mode: multiply;
+            color: var(--text-main);
+        }
+
+        .hero-bottom {
+            margin-top: auto;
+            z-index: 2;
+            padding-top: 6vh;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            align-items: center;
+            gap: 4vw;
+            width: 100%;
+            flex-grow: 1;
+            margin-top: 2vh;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .hero-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .positioning {
+            max-width: 50ch;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+            line-height: 1.5;
+        }
+
+        .intro-stack {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: clamp(0.9rem, 1.2vw, 1.3rem);
+            /* Scaled down slightly */
+            color: var(--text-muted);
+            margin-bottom: 2vh;
+            line-height: 1.6;
+        }
+
+        .intro-line {
+            margin-bottom: 1vh;
+        }
+
+        .sig-stack {
+            margin-top: 3vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sig-line {
+            display: inline-block;
+            margin-bottom: 1vh;
+            transition: transform 0.3s ease, color 0.3s ease;
+            transform-origin: left center;
+        }
+
+        .sig-line:nth-child(1) {
+            font-size: 1rem;
+        }
+
+        .sig-line:nth-child(2) {
+            font-size: 1.15rem;
+        }
+
+        .sig-line:nth-child(3) {
+            font-size: 1.3rem;
+        }
+
+        .sig-line:nth-child(4) {
+            font-size: 1.45rem;
+        }
+
+        .sig-line:nth-child(5) {
+            font-size: 1.6rem;
+        }
+
+        .sig-line:nth-child(6) {
+            font-size: 1.6rem;
+        }
+
+        .sig-line:hover {
+            color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .sig-italic {
+            font-style: italic;
+            margin-top: 3vh;
+        }
+
+        /* Attached Image Treatment */
+        .hero-photo-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4/5;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .hero-photo-container {
+            width: 100%;
+            height: 100%;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-photo-container img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            object-position: center;
+            transition: filter 1s ease;
+            filter: grayscale(100%) contrast(1.1);
+        }
+
+        .hero-photo-wrapper:hover .hero-photo-container {
+            transform: scale(1.05);
+        }
+
+        /* --- Scrolling Highlights / Marquees --- */
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            line-height: 1;
+            padding: 2vh 0;
+            margin-top: 12vh;
+            /* Pushed further down from CTA */
+        }
+
+        .marquee-container {
+            width: 100vw;
+            margin-left: calc(-1 * var(--space-vw));
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .marquee {
+            display: inline-block;
+            animation: marquee 35s linear infinite;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .marquee span {
+            margin-right: 20vw;
+            color: var(--text-muted);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Giant Text Highlight For "The Builds" */
+        .scroll-highlight-container {
+            width: 100vw;
+            overflow: hidden;
+            margin-left: calc(-1 * var(--space-vw));
+            margin-bottom: 2vh;
+            padding: 2vh 0;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .scroll-highlight {
+            display: inline-block;
+            font-size: clamp(6rem, 15vw, 20rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            color: rgba(0, 0, 0, 0.03);
+            transform: translateX(10%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Visual Accent Break */
+        .section-break {
+            width: 1px;
+            height: 100px;
+            background-color: var(--text-main);
+            margin: 0 auto;
+            display: block;
+            opacity: 0.3;
+        }
+
+        /* --- The Full Arc --- */
+        .full-arc-text p {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 2vw, 2.5rem);
+            color: var(--text-main);
+            line-height: 1.5;
+            margin-bottom: 3.5rem;
+            max-width: 35ch;
+        }
+
+        /* --- Case Studies (The Builds) --- */
+        .build-phase {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .case-study {
+            padding: 5vh 0;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .case-study::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -2vw;
+            width: 4px;
+            height: 0%;
+            background: var(--text-main);
+            transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .case-study:hover {
+            transform: translateX(1vw);
+        }
+
+        .case-study:hover::before {
+            height: 100%;
+        }
+
+        .cs-metrics {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+        }
+
+        .cs-metrics span {
+            opacity: 0.6;
+        }
+
+        .cs-content h3 {
+            font-size: 1rem;
+            margin: 3rem 0 1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cs-outcome {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 1.5vw, 1.8rem);
+            color: var(--text-main);
+            line-height: 1.5;
+            margin-top: 5rem;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-left: 4px solid var(--accent);
+            transition: transform 0.4s ease, background 0.4s ease;
+        }
+
+        .case-study:hover .cs-outcome {
+            background: rgba(0, 0, 0, 0.04);
+            transform: translateX(10px);
+        }
+
+        /* --- Testimonials (Sophisticated Dark Mode) --- */
+        .testimonials-wrapper {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            position: relative;
+            z-index: 10;
+            padding-bottom: 15vh;
+        }
+
+        .test-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .test-item {
+            padding: 12vh 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: opacity 0.4s;
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
+        .test-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 3vw, 3.5rem);
+            font-style: italic;
+            line-height: 1.3;
+            max-width: 25ch;
+            margin-bottom: 3rem;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .test-item:hover .test-quote {
+            transform: translateX(15px);
+        }
+
+        .test-quote::before {
+            content: '“';
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            line-height: 0;
+            color: var(--accent);
+            vertical-align: -0.2em;
+            margin-right: 0.1em;
+        }
+
+        .test-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            margin-top: 2rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            padding-left: 2rem;
+        }
+
+        .test-author {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+        }
+
+        .test-title {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            max-width: 45ch;
+            line-height: 1.6;
+        }
+
+        /* --- 150+ Brands Section --- */
+        .brands-section {
+            background-color: var(--bg-primary);
+            z-index: 11;
+            position: relative;
+            padding: 120px var(--space-vw);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .brands-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
+
+        .brands-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            background-color: var(--bg-primary);
+            z-index: 11;
+            position: relative;
+            padding-top: 20vh;
+        }
+
+        .timeline {
+            list-style: none;
+            margin-top: 5vh;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .timeline li {
+            padding: 4vh 2vw;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+            align-items: baseline;
+            transition: background 0.3s, padding-left 0.3s;
+        }
+
+        .timeline li:hover {
+            padding-left: 3vw;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .timeline li span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        /* --- Let's Talk & Footer --- */
+        .contact {
+            background-color: var(--bg-primary);
+            padding-bottom: 0;
+        }
+
+        .huge-cta-wrap {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            margin: 15vh 0;
+            padding: 0 var(--space-vw);
+            width: 100vw;
+            margin-left: calc(-1 * var(--space-vw));
+        }
+
+        .text-huge-cta {
+            font-size: 16vw;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-main);
+            transition: color 0.5s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+
+        .huge-cta-wrap:hover .text-huge-cta {
+            color: var(--text-main);
+            transform: scale(1.05);
+        }
+
+        .contact-copy {
+            margin: 0 auto 10vh;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+            color: var(--text-main);
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 4vw;
+            margin-bottom: 15vh;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 4vh var(--space-vw);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Mobile Breakpoints */
+        @media (max-width: 1024px) {
+            .grid-1-2 {
+                grid-template-columns: 1fr;
+                gap: 8vh;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-right {
+                order: -1;
+                /* Move photo above text on mobile */
+                justify-content: center;
+                margin-bottom: 4vh;
+            }
+
+            .hero-photo-wrapper {
+                position: relative;
+                width: 100%;
+                max-width: 100%;
+                aspect-ratio: 1/1;
+                margin-bottom: 5vh;
+            }
+
+            .hero-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .positioning {
+                margin-bottom: 5vh;
+            }
+
+            .full-arc .title-container {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --space-vw: 8vw;
+                --space-vh: 10vh;
+            }
+
+            #nodes-canvas {
+                display: none;
+            }
+
+            /* Disable nodes on touch for performance */
+            body,
+            a,
+            .btn {
+                cursor: auto;
+                overflow-x: hidden;
+            }
+
+            body * {
+                max-width: 100vw;
+                word-wrap: break-word;
+            }
+
+            /* Defend against horizontal overflow */
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(237, 235, 230, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5vh;
+                font-size: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .text-large {
+                font-size: 13vw;
+            }
+
+            .name-wrapper {
+                font-size: 18vw;
+            }
+
+            /* Keep editorial indentation on mobile, just reduced */
+            .body-text,
+            .inter-text,
+            .positioning,
+            .test-meta,
+            .cs-outcome {
+                border-left: 1px solid var(--border-color) !important;
+                padding-left: 1.25rem !important;
+                max-width: 100% !important;
+            }
+
+            .positioning {
+                font-size: 1.25rem;
+                margin-bottom: 2rem;
+            }
+
+            .hero {
+                padding-top: 15vh;
+            }
+
+            .hero-bottom {
+                padding-top: 4vh;
+            }
+
+            .hero-photo-wrapper {
+                margin-bottom: 4vh;
+                border-radius: 4px;
+            }
+
+            .case-study:hover {
+                transform: none;
+                padding-left: 0;
+            }
+
+            .case-study::before {
+                display: none;
+            }
+
+            .timeline li {
+                flex-direction: column;
+                gap: 1vh;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 4vh 5vw;
+            }
+
+            .timeline li span {
+                text-align: left;
+            }
+
+            .timeline li:hover {
+                padding-left: 5vw;
+                background: transparent;
+            }
+
+            /* Fix marquee for mobile */
+            .marquee {
+                font-size: 0.9rem;
+                animation-duration: 20s;
+            }
+
+            .marquee-container {
+                width: 100vw;
+                margin-left: calc(-1 * var(--space-vw));
+            }
+
+            .scroll-highlight-container {
+                width: 100vw;
+                margin-left: calc(-1 * var(--space-vw));
+            }
+
+            .huge-cta-wrap {
+                margin: 10vh 0;
+                width: 100vw;
+                margin-left: calc(-1 * var(--space-vw));
+            }
+
+            .text-huge-cta {
+                font-size: 18vw;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 2vh;
+                text-align: center;
+            }
+
+            .contact-links a,
+            .footer-links a {
+                padding: 0.8rem 0;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 2vh;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Powerful Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Connecting Nodes Cursor Canvas Overlay -->
+    <canvas id="nodes-canvas"></canvas>
+
+    <!-- BEGIN: HEADER -->
+    <header id="main-header">
+        <a href="#hero" class="logo hover-line">Aaron Nava</a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-links" id="nav-links" style="align-items: center;">
+            <a href="#arc" class="hover-line">The Arc</a>
+            <a href="#the-builds" class="hover-line">The Builds</a>
+            <a href="#testimonials" class="hover-line">Testimonials</a>
+            <a href="#about" class="hover-line">About</a>
+            <a href="files/Aaron_Nava_Resume.pdf" target="_blank" class="btn"
+                style="padding: 0.6rem 1.8rem; margin-top: 0; font-size: 0.75rem;">Resume</a>
+        </nav>
+    </header>
+    <!-- END: HEADER -->
+
+    <main>
+        <!-- BEGIN: HERO SECTION CONTENT -->
+        <section id="hero" class="hero wrapper">
+            <div class="hero-grid">
+                <!-- Left Zone (Copy & Stack) -->
+                <div class="hero-left">
+                    <div class="hero-title-wrap">
+                        <h1 class="name-wrapper" id="animated-name">
+                            <span class="name-text">Aaron</span>
+                            <span class="name-text">Nava</span>
+                        </h1>
+                    </div>
+
+                    <div class="hero-bottom reveal delay-1">
+                        <div class="positioning">
+                            <div class="intro-stack">
+                                <div class="intro-line reveal delay-1">Most executives can close the deal. Or build the
+                                    system.
+                                    Or develop the team.</div>
+                                <div class="intro-line reveal delay-2">Few can do all three. At scale. Without breaking
+                                    what
+                                    matters.</div>
+                                <div class="intro-line reveal delay-3">That's the job. And I've done it four times.
+                                </div>
+                            </div>
+
+                            <div class="sig-stack">
+                                <span class="sig-line reveal delay-4">Close the business.</span>
+                                <span class="sig-line reveal delay-5">Build the systems.</span>
+                                <span class="sig-line reveal delay-6">Develop the teams.</span>
+                                <span class="sig-line reveal delay-7">Protect the culture.</span>
+                                <span class="sig-line reveal delay-8">Preserve the margin.</span>
+                                <span class="sig-line sig-italic reveal delay-9">That's how I work.</span>
+                            </div>
+                        </div>
+                        <div style="padding-top:20px;">
+                            <a href="#contact" class="btn reveal delay-9">Let's Talk</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Zone (Photo) -->
+                <div class="hero-right">
+                    <div class="hero-photo-wrapper reveal">
+                        <div class="hero-photo-container">
+                            <img src="files/IMG_2170.JPG" alt="Aaron Nava Portrait">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="marquee-wrapper">
+                <div class="marquee-container">
+                    <div class="marquee">
+                        <span>Elite Full-Arc Operator</span><span>•</span>
+                        <span>15 Years of Building</span><span>•</span>
+                        <span>85% Win Rate</span><span>•</span>
+                        <span>Bilingual. Bicultural.</span><span>•</span>
+                        <span>Building Systems That Run Without Me</span><span>•</span>
+                        <span>Elite Full-Arc Operator</span><span>•</span>
+                        <span>15 Years of Building</span><span>•</span>
+                        <span>85% Win Rate</span><span>•</span>
+                        <span>Bilingual. Bicultural.</span><span>•</span>
+                        <span>Building Systems That Run Without Me</span><span>•</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: HERO SECTION CONTENT -->
+
+        <!-- BEGIN: VISUAL ACCENT -->
+        <div class="section-break reveal"></div>
+        <!-- END: VISUAL ACCENT -->
+
+        <!-- BEGIN: THE FULL ARC CONTENT -->
+        <section id="arc" class="full-arc wrapper section-padding">
+            <div class="grid grid-1-2">
+                <div class="title-container reveal">
+                    <h2 class="text-large">The<br><span class="font-serif italic">Full Arc</span></h2>
+                </div>
+                <div class="full-arc-text">
+                    <!-- CHANGE 1: Full Arc Positioning Refinement -->
+                    <p class="reveal">Most people are built for one thing. I was built for all of it.</p>
+                    <p class="inter-text reveal delay-1">Before a pitch begins, someone has to make the case for why
+                        your agency belongs in the room. That's where I thrive. The hard questions, the honest answers,
+                        the moment where trust either forms or it doesn't. 90% of those conversations turn into a formal
+                        invitation to pitch. Then we win <span class="count-up metric-highlight"
+                            data-target="85">0</span>% of those.</p>
+
+                    <p class="inter-text reveal delay-2">We're talking $1.5M to $20M deals. The kind that change a
+                        company's trajectory.</p>
+
+                    <p class="inter-text reveal delay-3">But I never promise what we can't deliver. Not for integrity's
+                        sake alone. Because promising the wrong thing is how you win once and lose everything after.</p>
+
+                    <p class="inter-text reveal delay-1 mt-4">After the close comes the harder work. I build the systems
+                        that let organizations actually deliver on what they just won. I've taken teams from 6 people to
+                        1,200. Grown a $35M capability to $115M. Maintained 15-20% organic growth for four straight
+                        years. Across 33 acquired agencies, I unified the go-to-market, the messaging, and the way we
+                        showed up to clients. One voice. One narrative. One way to win.</p>
+
+                    <p class="inter-text reveal delay-2">None of that happened by accident.</p>
+
+                    <p class="inter-text reveal delay-3 mt-4">And when it's running, I develop the people who can take
+                        it from there. Because the real measure isn't what happens when I'm in the room. It's what
+                        happens after I leave.</p>
+                </div>
+            </div>
+        </section>
+        <!-- END: THE FULL ARC CONTENT -->
+
+        <!-- BEGIN: VISUAL ACCENT -->
+        <div class="section-break reveal"></div>
+        <!-- END: VISUAL ACCENT -->
+
+        <!-- BEGIN: THE BUILDS CONTENT (Formerly Case Studies) -->
+        <section class="the-builds wrapper section-padding">
+
+            <div class="scroll-highlight-container reveal">
+                <div class="scroll-highlight" id="builds-highlight">THE BUILDS — THE BUILDS — THE BUILDS</div>
+            </div>
+
+            <!-- CHANGE 2: Phase 1 Structure & CHANGE 3: Circus Opening REWRITTEN -->
+            <div id="the-builds" class="case-study reveal">
+                <div class="build-phase">PHASE 1: THE BUILDS — Circus (2017-2019: Building from Zero)</div>
+                <div class="grid grid-1-2" style="margin-top: 3vh;">
+                    <div>
+                        <h2 class="text-large">Building<br><span class="font-serif italic">Circus</span></h2>
+                    </div>
+                    <div>
+                        <div class="cs-metrics reveal delay-1">
+                            <span>Time: 2 Years</span>
+                            <span>Scale: <span class="metric-highlight"><span class="count-up" data-target="6">0</span>
+                                    to <span class="count-up" data-target="100">0</span>+</span> People</span>
+                            <span>Rev: <span class="metric-highlight">$<span class="count-up" data-target="5">0</span>M
+                                    to $<span class="count-up" data-target="30">0</span>M+</span></span>
+                        </div>
+
+                        <div class="cs-content reveal delay-2">
+                            <h3>The Situation</h3>
+                            <p class="body-text">Circus had offices across LATAM. The US operation was six people and
+                                small accounts. The opportunity was wide open. The mandate was simple: grow the US
+                                footprint and prove we could compete at the highest level.</p>
+                            <p class="body-text">I didn't just believe in the vision. I saw exactly how to build it.</p>
+
+                            <h3>The Build</h3>
+                            <p class="body-text">It started with Spotify. I inherited the account and immediately saw
+                                what it could become. I grew it from a single relationship into a full Social AOR
+                                partnership. When the opportunity came to lead the launch of Viva Latino — one of
+                                Spotify's most significant platform initiatives at the time — we were ready. Not because
+                                we got lucky. Because we'd spent months positioning ourselves as the only logical
+                                choice.</p>
+                            <p class="body-text">That became the playbook. Cultural fluency as a competitive advantage.
+                                Social-first thinking as the entry point. Find the gap in an existing relationship,
+                                bring multicultural relevance and creative depth, and expand from there.</p>
+                            <p class="body-text">Then came California Lottery. A formal government RFP. Six months of
+                                competing against agencies twice our size. When we won, it changed everything. It proved
+                                that a six-person US office could walk into any room and compete at any level.</p>
+                            <p class="body-text">Two years. 6 people to 100. $5M to $30M+. Ready for acquisition.</p>
+                        </div>
+
+                        <div class="cs-outcome reveal">
+                            The culture was the foundation. The operating engine was what scaled it. High-performance
+                            teams, repeatable systems, and a relentless focus on client outcomes. That's not a startup
+                            story. That's a blueprint.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHANGE 2: Phase 2 Structure -->
+            <div class="case-study reveal">
+                <div class="build-phase">PHASE 2: THE BUILDS — Monks (2019-2025: Integrating at Scale)</div>
+                <div class="grid grid-1-2" style="margin-top: 3vh;">
+                    <div>
+                        <h2 class="text-large">Integrating<br><span class="font-serif italic">Monks</span></h2>
+                    </div>
+                    <div>
+                        <div class="cs-metrics reveal delay-1">
+                            <span>Time: 4-5 Years</span>
+                            <span>Scale: <span class="metric-highlight"><span class="count-up"
+                                        data-target="150">0</span> to <span class="count-up"
+                                        data-target="1200">0</span></span> People</span>
+                            <span>Rev: <span class="metric-highlight">$<span class="count-up" data-target="35">0</span>M
+                                    to $<span class="count-up" data-target="115">0</span>M+</span></span>
+                        </div>
+
+                        <div class="cs-content reveal delay-2">
+                            <h3>The Situation</h3>
+                            <p class="body-text">When S4 Capital began integrating agencies in 2019, it started with
+                                five. By 2022 the organization was growing fast. By 2023 we reached 8,500 people and
+                                $1B+ in revenue. I was inside that growth, building the social-first capability from the
+                                ground up.</p>
+                            <p class="body-text">Thirty-three agency founders. Each with their own identity, their own
+                                clients, their own way of winning. The capability was fragmented across regions and
+                                teams that had no reason to trust each other yet.</p>
+                            <p class="body-text">The mandate: unify the go-to-market. Build one coherent capability.
+                                Make sure that when we walked into a room, we walked in as one.</p>
+
+                            <h3>The Build</h3>
+                            <p class="body-text">I started by listening. Not presenting. Not forcing. I asked questions.
+                                I learned how each team worked, what they knew about their clients, where the real
+                                expertise lived. Trust came before alignment. It had to.</p>
+                            <p class="body-text">The resistance was real. Founders protect what they built. That's not a
+                                flaw, it's human. But after a year, the data broke through what conversation couldn't.
+                                Better qualification meant fewer pitches and higher close rates. Bigger opportunities
+                                meant bigger deals. The win rate climbed to <span class="count-up"
+                                    data-target="85">0</span>%. The math became the argument.</p>
+                            <p class="body-text">Then came the global build. NAMER. LATAM. APAC. EMEA. I wasn't
+                                overseeing it from a distance. I was building it from the ground up. First hires. First
+                                freelancers. Leadership teams built region by region, role by role. Every market started
+                                the same way — with the right people and a clear system for how we win.</p>
+                            <p class="body-text">Over time, something shifted. We had built a reputation as a
+                                world-class social-first organization. Clients started coming to us. Connections inside
+                                an 8,500-person global network would surface opportunities and route them our way. The
+                                pipeline filled itself because the work earned it.</p>
+                            <p class="body-text">For three consecutive years I personally anchored 22 to 25 major global
+                                pursuits annually. We grew from $35M to $115M in revenue. Our capability became the
+                                second highest revenue driver for the entire organization. At our peak, 1,200 people.
+                            </p>
+                        </div>
+
+                        <div class="cs-outcome reveal">
+                            Here's what I learned at that scale: you can't manage your way to $115M. You need the pirate
+                            ship model — fast, fearless, high performers who don't wait for permission. But you also
+                            need the structure that makes it repeatable. Most organizations pick one. We refused to.
+                            That tension is what drove us. And that's exactly what made it scale.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: THE BUILDS CONTENT -->
+
+        <!-- BEGIN: TESTIMONIALS CONTENT -->
+        <section id="testimonials" class="testimonials-wrapper section-padding dark-mode-section">
+            <div class="wrapper">
+                <h2 class="text-large reveal" style="margin-bottom: 10vh;">What <span class="font-serif italic">People
+                        Say</span></h2>
+
+                <div class="test-list">
+                    <div class="test-item reveal delay-1">
+                        <div class="test-label"
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
+                            ON WINNING BUSINESS</div>
+                        <div class="test-quote">When pitches get intense, Aaron stays calm, focused, and constructive.
+                            He understands both the creative and business sides, which is rare.</div>
+                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
+                            <div class="test-author"
+                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Federico Duran,
+                                <span style="opacity: 0.7;">SVP ECD at Monks</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="test-item reveal delay-2">
+                        <div class="test-label"
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
+                            ON LEADING UNDER PRESSURE</div>
+                        <div class="test-quote">After seven years of working alongside Aaron, I can confidently say he
+                            is an exceptional leader. He thrives in the chaos of new business, bringing a calm and
+                            collaborative presence to every project. He has a unique ability to keep large teams aligned
+                            under pressure. He is the kind of person you want in the room when it matters.</div>
+                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
+                            <div class="test-author"
+                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Michelle
+                                Cunningham, <span style="opacity: 0.7;">Google Marketing Platform</span></div>
+                        </div>
+                    </div>
+
+                    <div class="test-item reveal delay-3">
+                        <div class="test-label"
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
+                            ON BUILDING TEAMS</div>
+                        <div class="test-quote">Aaron is a true class act: calm when things are on edge, committed to
+                            the work, and deeply trusted by the people around him.</div>
+                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
+                            <div class="test-author"
+                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Lara Burniston,
+                                <span style="opacity: 0.7;">SVP Global Head of Business Transformation and
+                                    Engagement</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="test-item reveal delay-4">
+                        <div class="test-label"
+                            style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">
+                            ON SEEING WHAT OTHERS MISS</div>
+                        <div class="test-quote">You truly see the connections others miss. The work you didn't want to
+                            be appreciated for was the work we benefited from the most.</div>
+                        <div class="test-meta" style="margin-top: 1rem; border-left: none; padding-left: 0;">
+                            <div class="test-author"
+                                style="font-weight: 400; text-transform: none; letter-spacing: normal;">Eric W. Shamlin,
+                                <span style="opacity: 0.7;">Founder / Ex Monks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: TESTIMONIALS CONTENT -->
+
+        <!-- BEGIN: 150+ BRANDS CONTENT -->
+        <section id="brands" class="brands-section" style="padding-bottom:120px;">
+            <div style="border-top: 1px solid var(--border-color); margin-bottom: 2rem; width: 100%;"></div>
+            <h2 class="brands-title reveal" style="text-transform: none; font-size: 1.2rem; font-weight: 500;">
+                150+ brands. Every category. Every scale. One standard.
+            </h2>
+            <div class="marquee-wrapper" style="margin-top: 4vh; border-top: none; border-bottom: none;">
+                <div class="marquee-container" style="border-top: none; border-bottom: none;">
+                    <div class="marquee"
+                        style="font-weight: 500; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: none;">
+                        <span>Google</span><span>•</span>
+                        <span>Spotify</span><span>•</span>
+                        <span>Netflix</span><span>•</span>
+                        <span>Amazon Music</span><span>•</span>
+                        <span>General Mills</span><span>•</span>
+                        <span>GM</span><span>•</span>
+                        <span>Dole</span><span>•</span>
+                        <span>Megamex</span><span>•</span>
+                        <span>California Lottery</span><span>•</span>
+                        <span>BJ's Restaurants</span><span>•</span>
+                        <span>Stellantis</span><span>•</span>
+                        <span>Toyota</span><span>•</span>
+                        <span>Jeep</span><span>•</span>
+                        <span>Fiat</span><span>•</span>
+                        <span>Chrysler Pacifica</span><span>•</span>
+                        <span>Dodge</span><span>•</span>
+                        <span>Maker's Mark</span><span>•</span>
+                        <span>PayPal</span><span>•</span>
+                        <span>Robinhood</span><span>•</span>
+                        <span>Chime</span><span>•</span>
+                        <span>and 130+ more</span><span>•</span>
+                        <!-- Second iteration for seamless loop -->
+                        <span>Google</span><span>•</span>
+                        <span>Spotify</span><span>•</span>
+                        <span>Netflix</span><span>•</span>
+                        <span>Amazon Music</span><span>•</span>
+                        <span>General Mills</span><span>•</span>
+                        <span>GM</span><span>•</span>
+                        <span>Dole</span><span>•</span>
+                        <span>Megamex</span><span>•</span>
+                        <span>California Lottery</span><span>•</span>
+                        <span>BJ's Restaurants</span><span>•</span>
+                        <span>Stellantis</span><span>•</span>
+                        <span>Toyota</span><span>•</span>
+                        <span>Jeep</span><span>•</span>
+                        <span>Fiat</span><span>•</span>
+                        <span>Chrysler Pacifica</span><span>•</span>
+                        <span>Dodge</span><span>•</span>
+                        <span>Maker's Mark</span><span>•</span>
+                        <span>PayPal</span><span>•</span>
+                        <span>Robinhood</span><span>•</span>
+                        <span>Chime</span><span>•</span>
+                        <span>and 130+ more</span><span>•</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: 150+ BRANDS CONTENT -->
+
+        <!-- BEGIN: ABOUT CONTENT -->
+        <section id="about" class="about-section wrapper section-padding">
+            <div class="grid grid-1-2">
+                <div class="reveal">
+                    <h2 class="text-large" style="margin-bottom: 3vh;">15 Years<br><span class="font-serif italic">of
+                            Building</span></h2>
+
+                    <ul class="timeline">
+                        <li><span>Intrapreneur</span>Conill</li>
+                        <li><span>Co-Founder & P&L</span>Joe Agency</li>
+                        <li><span>6 to 100 people</span>Circus</li>
+                        <li><span>$115M Revenue</span>Monks</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="body-text reveal delay-1"><span class="italic">Some people manage the business. Some
+                            people build it. I've always been more interested in the architecture.</span></p>
+                    <p class="body-text reveal delay-2">Four builds. Each one bigger, messier, and more complex than the
+                        last. Conill taught me how to launch a new capability from scratch inside an existing
+                        organization. How to find the white space, build the case, and turn a blank mandate into a
+                        revenue line. Joe Agency taught me the P&L the hard way, which is the only way it actually
+                        sticks. Circus was the proof of concept. Six people who grew into a focused, competitive agency
+                        that could walk into any room and win. Monks was the global enterprise test. The one where the
+                        stakes are real, the teams span continents, and the margin for error gets very small, very fast.
+                    </p>
+                    <p class="body-text reveal delay-3">Each one left me with something the previous one couldn't teach.
+                        That's always been the point.</p>
+                    <p class="body-text reveal delay-4">Here's what I've learned about building teams that most people
+                        figure out too late: the goal was never to be needed. The goal was always to make yourself
+                        unnecessary. Build the right people, give them the right systems, and get out of their way. The
+                        ones who figure that out early build things that last. The ones who don't become the bottleneck.
+                    </p>
+                    <p class="body-text reveal delay-5">I've also learned that profit is the outcome, not the objective.
+                        Get the people right. Build something worth delivering. Earn the right partners. The numbers
+                        take care of themselves. Every time.</p>
+                    <p class="body-text reveal delay-6 mt-4">Culture isn't a targeting parameter for me. It's how I
+                        think. I'm bilingual, bicultural, and I've built campaigns for Hispanic audiences at the highest
+                        level — for brands like Toyota, Dodge, Spotify, and California Lottery. I don't need a brief to
+                        understand the market. I am the market.</p>
+                    <p class="body-text reveal delay-7 mt-4">I've been deep in AI for a while now. Not as an observer,
+                        but as
+                        a builder. I was part of the team that integrated Monks.flow into our capability, connecting AI
+                        infrastructure across a global organization. I've built agentic workflows inside live teams. I
+                        hold an MIT certification in AI and Business Strategy. But more than credentials, I have a point
+                        of view: the role of the pure specialist is shrinking. The next generation of high performers
+                        will be generalists who know how to direct, manage, and scale AI agents. That shift is already
+                        underway. And I'm already building for it.</p>
+                    <p class="body-text reveal delay-7"><span class="italic">The machine that runs without you. That's
+                            always been the goal.</span></p>
+                </div>
+            </div>
+        </section>
+        <!-- END: ABOUT CONTENT -->
+
+        <!-- BEGIN: CONTACT CONTENT -->
+        <section id="contact" class="contact pt-0">
+            <a href="mailto:nava.aaron@gmail.com" class="huge-cta-wrap reveal">
+                <h2 class="text-huge-cta">Let's Talk</h2>
+            </a>
+
+            <p class="body-text contact-copy wrapper reveal">
+                The best conversations I've had started with someone saying "we have a problem we can't quite solve." If
+                that's where you are, I'd love to hear it.
+            </p>
+
+            <!-- CHANGE 9: Contact Info Update -->
+            <div class="contact-links reveal delay-1">
+                <a href="mailto:nava.aaron@gmail.com" class="hover-line">nava.aaron@gmail.com</a>
+                <a href="https://www.linkedin.com/in/anava" target="_blank" rel="noopener noreferrer"
+                    class="hover-line">linkedin.com/in/anava</a>
+            </div>
+
+            <footer class="footer-bottom">
+                <div class="copyright">© 2025 Aaron Nava</div>
+                <div class="footer-links">
+                    <a href="mailto:nava.aaron@gmail.com" class="hover-line" style="margin-right:2vw;">Email</a>
+                    <a href="https://www.linkedin.com/in/anava" target="_blank" rel="noopener noreferrer"
+                        class="hover-line">LinkedIn</a>
+                </div>
+            </footer>
+        </section>
+        <!-- END: CONTACT CONTENT -->
+    </main>
+
+    <!-- Interactive Javascript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Animated Construction Effect for Name ---
+            const nameEls = document.querySelectorAll('.name-text');
+            nameEls.forEach(el => {
+                const text = el.textContent;
+                el.textContent = '';
+                const row = document.createElement('div');
+                row.className = 'name-row';
+                text.split('').forEach((char, i) => {
+                    const span = document.createElement('span');
+                    span.className = 'name-char';
+                    span.textContent = char;
+                    // stagger animation
+                    span.style.animationDelay = `${(i * 0.1) + 0.2}s`;
+                    row.appendChild(span);
+                });
+                el.appendChild(row);
+            });
+
+            // --- Connecting Nodes Cursor Canvas ---
+            const canvas = document.getElementById('nodes-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let mouse = { x: -1000, y: -1000, radius: 150 };
+
+            const particles = [];
+            const particleCount = 40; // Adjust for density
+
+            function initCanvas() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                particles.length = 0;
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        vx: (Math.random() - 0.5) * 1,
+                        vy: (Math.random() - 0.5) * 1,
+                        radius: Math.random() * 2 + 1
+                    });
+                }
+            }
+
+            function drawNodes() {
+                ctx.clearRect(0, 0, width, height);
+                // Draw nodes and connect them if they are near the mouse
+                for (let i = 0; i < particleCount; i++) {
+                    let p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Bounce off edges
+                    if (p.x < 0 || p.x > width) p.vx = -p.vx;
+                    if (p.y < 0 || p.y > height) p.vy = -p.vy;
+
+                    // Calculate distance to mouse
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < mouse.radius) {
+                        // Smoothly pull particles slightly towards mouse for an interactive feel
+                        p.x += dx * 0.01;
+                        p.y += dy * 0.01;
+
+                        // Draw connecting line to mouse
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(17, 16, 15, ${1 - dist / mouse.radius})`;
+                        if (document.body.classList.contains('dark-mode-section')) {
+                            ctx.strokeStyle = `rgba(244, 242, 237, ${1 - dist / mouse.radius})`;
+                        }
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+
+                        // Draw the node itself
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = document.body.classList.contains('dark-mode-section') ? '#F4F2ED' : '#11100F';
+                        ctx.fill();
+                    }
+                }
+
+                // --- Draw the precise center pointer dot ---
+                if (mouse.x > 0 && mouse.y > 0 && mouse.x !== -1000) {
+                    const isDark = document.body.classList.contains('dark-mode-section');
+
+                    // Gentle, continuous heartbeat pulse for the outer ring
+                    const time = Date.now() * 0.003;
+                    const pulseRing = Math.sin(time) * 1.5 + 11.5; // Oscillates gently from 10 to 13 radius
+
+                    // Outer pulsing ring
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, pulseRing, 0, Math.PI * 2);
+                    ctx.strokeStyle = isDark ? 'rgba(244, 242, 237, 0.3)' : 'rgba(17, 16, 15, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    // Solid sharp center dot
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = isDark ? '#F4F2ED' : '#11100F';
+                    ctx.fill();
+                }
+
+                requestAnimationFrame(drawNodes);
+            }
+
+            // Only init heavy canvas if not on touch devices
+            if (window.matchMedia("(pointer: fine)").matches) {
+                initCanvas();
+                drawNodes();
+
+                window.addEventListener('resize', initCanvas);
+                window.addEventListener('mousemove', (e) => {
+                    mouse.x = e.clientX;
+                    mouse.y = e.clientY;
+                });
+                window.addEventListener('mouseout', () => {
+                    mouse.x = -1000;
+                    mouse.y = -1000;
+                });
+
+                // Subtle animation on hover (expand connection radius)
+                const interactables = document.querySelectorAll('a, .btn, .timeline li, .case-study');
+                interactables.forEach(el => {
+                    el.addEventListener('mouseenter', () => mouse.radius = 250);
+                    el.addEventListener('mouseleave', () => mouse.radius = 150);
+                });
+            }
+
+            // --- Scroll Reveal Animations (Intersection Observer) ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Number Count Up Animations ---
+            const countUpObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                        entry.target.classList.add('counted');
+                        const targetStr = entry.target.getAttribute('data-target');
+                        if (!targetStr) return;
+
+                        const target = parseInt(targetStr, 10);
+                        const duration = 1500; // ms
+                        const frameRate = 30; // frames per sec
+                        const totalFrames = Math.round((duration / 1000) * frameRate);
+                        const increment = target / totalFrames;
+                        let frame = 0;
+
+                        const counter = setInterval(() => {
+                            frame++;
+                            let current = Math.round(increment * frame);
+                            // Format number with commas
+                            entry.target.innerText = current.toLocaleString();
+                            if (frame === totalFrames) {
+                                entry.target.innerText = target.toLocaleString();
+                                clearInterval(counter);
+                            }
+                        }, 1000 / frameRate);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.count-up').forEach(el => countUpObserver.observe(el));
+
+            // --- Scroll Highlight Parallax Text ("The Builds") ---
+            const scrollHighlight = document.getElementById('builds-highlight');
+            if (scrollHighlight) {
+                window.addEventListener('scroll', () => {
+                    const rect = scrollHighlight.getBoundingClientRect();
+                    // If it is in viewport
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        // Move it left slightly based on scroll depth
+                        const scrollDist = window.innerHeight - rect.top;
+                        scrollHighlight.style.transform = `translateX(${10 - scrollDist * 0.05}%)`;
+                    }
+                });
+            }
+
+            // --- Header Hide on Scroll Down ---
+            let lastScroll = 0;
+            const header = document.getElementById('main-header');
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                lastScroll = currentScroll;
+            });
+
+            // --- Dark Mode Cursor Toggle on Testimonials ---
+            const darkSection = document.querySelector('.dark-mode-section');
+            if (darkSection && window.matchMedia("(pointer: fine)").matches) {
+                darkSection.addEventListener('mouseenter', () => {
+                    document.body.classList.add('dark-mode-section');
+                });
+                darkSection.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('dark-mode-section');
+                });
+            }
+
+            // --- Mobile Hamburger Menu ---
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
