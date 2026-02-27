@@ -481,41 +481,42 @@
             margin-top: 3vh;
         }
 
-        /* Attached Image Treatment (Proposal C: Supermodern Hybrid) */
+        /* Attached Image Treatment (Elite Transparent Integration) */
         .hero-photo-wrapper {
             position: relative;
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
+            /* Slightly larger to accommodate shadow */
             aspect-ratio: 4/5;
             pointer-events: none;
-            overflow: hidden;
-            border-radius: 2px;
-            /* Fade out the bottom edge */
-            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            /* overflow: hidden removed so shadows aren't clipped */
         }
 
         .hero-photo-container {
             width: 100%;
             height: 100%;
             transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
-            /* Blend photo into the background color to feel like printed ink */
-            mix-blend-mode: multiply;
+            /* Drop shadow creates elite depth against the noise canvas */
+            filter: drop-shadow(-15px 25px 20px rgba(0, 0, 0, 0.15)) drop-shadow(-5px 10px 10px rgba(0, 0, 0, 0.1));
         }
 
         .hero-photo-container img {
             width: 100%;
-            height: 120%;
-            object-fit: cover;
-            object-position: center;
+            height: 100%;
+            /* Changed from 120% since we want the whole cut-out */
+            object-fit: contain;
+            /* Prevents cropping of the subject */
+            object-position: bottom center;
+            /* anchors the person to the bottom */
             transition: filter 1s ease;
-            filter: grayscale(100%) contrast(1.1) brightness(0.95);
+            filter: grayscale(100%) contrast(1.15) brightness(0.95);
         }
 
         .hero-photo-wrapper:hover .hero-photo-container {
-            transform: scale(1.05);
-            /* Slightly reveal original tones on hover */
-            mix-blend-mode: normal;
+            transform: scale(1.05) translateY(-2%);
+            /* Slightly lifts up */
+            /* Shadow expands on hover */
+            filter: drop-shadow(-20px 35px 30px rgba(0, 0, 0, 0.2)) drop-shadow(-5px 15px 15px rgba(0, 0, 0, 0.15));
         }
 
         .hero-photo-wrapper:hover .hero-photo-container img {
@@ -1171,7 +1172,7 @@
                 <div class="hero-right">
                     <div class="hero-photo-wrapper reveal">
                         <div class="hero-photo-container">
-                            <img src="files/IMG_2050.jpeg" alt="Aaron Nava Portrait">
+                            <img src="files/IMG_2050.png" alt="Aaron Nava Portrait">
                         </div>
                     </div>
                 </div>
