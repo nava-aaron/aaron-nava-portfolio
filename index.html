@@ -37,7 +37,8 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 12vh;
+            scroll-padding-top: 8vh;
+            /* Matches the fixed header height so sections snap right underneath */
         }
 
         body {
@@ -305,7 +306,8 @@
         }
 
         .section-padding {
-            padding: var(--space-vh) 0;
+            padding-top: 4vh;
+            padding-bottom: var(--space-vh);
         }
 
         .grid {
