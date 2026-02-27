@@ -1575,7 +1575,7 @@
             const canvas = document.getElementById('nodes-canvas');
             const ctx = canvas.getContext('2d');
             let width, height;
-            let mouse = { x: -1000, y: -1000, radius: 150 };
+            let mouse = { x: -1000, y: -1000, radius: 100 };
 
             const particles = [];
             const particleCount = 40; // Adjust for density
@@ -1680,7 +1680,14 @@
                 const interactables = document.querySelectorAll('a, .btn, .timeline li, .case-study');
                 interactables.forEach(el => {
                     el.addEventListener('mouseenter', () => mouse.radius = 250);
-                    el.addEventListener('mouseleave', () => mouse.radius = 150);
+                    el.addEventListener('mouseleave', () => mouse.radius = 100);
+                });
+
+                // Context-aware reading mode: shrink radius to 0 over text blocks
+                const readableText = document.querySelectorAll('p, h1, h2, h3, .marquee, .test-quote, .cs-outcome');
+                readableText.forEach(el => {
+                    el.addEventListener('mouseenter', () => mouse.radius = 0);
+                    el.addEventListener('mouseleave', () => mouse.radius = 100);
                 });
             }
 
