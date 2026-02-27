@@ -154,10 +154,23 @@
             border-left: 1px solid var(--border-color);
         }
 
-        /* Bold Metrics */
+        /* Bold Metrics & Pulse Animation */
         .metric-highlight {
             font-weight: 900;
             color: var(--text-main);
+            opacity: 1 !important;
+            /* Forces the number to stand out from the muted label */
+        }
+
+        .count-up {
+            display: inline-block;
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .count-up.is-pulsing {
+            color: #ffffff;
+            transform: scale(1.08);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
         }
 
         /* --- Animations & Interactions --- */
@@ -1695,6 +1708,8 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
                         entry.target.classList.add('counted');
+                        entry.target.classList.add('is-pulsing'); // Start digital pulse
+
                         const targetStr = entry.target.getAttribute('data-target');
                         if (!targetStr) return;
 
@@ -1710,8 +1725,9 @@
                             let current = Math.round(increment * frame);
                             // Format number with commas
                             entry.target.innerText = current.toLocaleString();
-                            if (frame === totalFrames) {
+                            if (frame >= totalFrames) {
                                 entry.target.innerText = target.toLocaleString();
+                                entry.target.classList.remove('is-pulsing'); // End digital pulse
                                 clearInterval(counter);
                             }
                         }, 1000 / frameRate);
