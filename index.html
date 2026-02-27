@@ -481,7 +481,7 @@
             margin-top: 3vh;
         }
 
-        /* Attached Image Treatment */
+        /* Attached Image Treatment (Proposal C: Supermodern Hybrid) */
         .hero-photo-wrapper {
             position: relative;
             width: 100%;
@@ -490,12 +490,17 @@
             pointer-events: none;
             overflow: hidden;
             border-radius: 2px;
+            /* Fade out the bottom edge */
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
         }
 
         .hero-photo-container {
             width: 100%;
             height: 100%;
-            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+            /* Blend photo into the background color to feel like printed ink */
+            mix-blend-mode: multiply;
         }
 
         .hero-photo-container img {
@@ -504,11 +509,17 @@
             object-fit: cover;
             object-position: center;
             transition: filter 1s ease;
-            filter: grayscale(100%) contrast(1.1);
+            filter: grayscale(100%) contrast(1.1) brightness(0.95);
         }
 
         .hero-photo-wrapper:hover .hero-photo-container {
             transform: scale(1.05);
+            /* Slightly reveal original tones on hover */
+            mix-blend-mode: normal;
+        }
+
+        .hero-photo-wrapper:hover .hero-photo-container img {
+            filter: grayscale(80%) contrast(1.1);
         }
 
         /* --- Scrolling Highlights / Marquees --- */
