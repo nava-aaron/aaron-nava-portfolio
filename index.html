@@ -1896,49 +1896,63 @@
             }
         });
 
+        // ── Always land on hero (prevent browser scroll restoration) ────────
+        if (history.scrollRestoration) history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+
         // ── Mobile Marquee Fix ──────────────────────────────────────────────
         // CSS translateX(-50%) calculation is unreliable on small screens.
-        // On mobile: disable the CSS animation and drive scrolling via JS
+        // On mobile: disable CSS animation and drive scrolling via JS
         // at the exact same pixels/second as the desktop 17s animation.
         (function () {
             if (window.innerWidth >= 768) return; // iPad and desktop: CSS handles it perfectly
 
-            // Target only the HERO ticker (inside .marquee-wrapper in the hero section)
             const heroMarquee = document.querySelector('.hero .marquee-wrapper .marquee');
-            if (!heroMarquee) return;
+            const brandsMarquee = document.querySelector('.brands-section .marquee');
 
-            // Wait for fonts/layout to settle, then measure the true half-width
             window.addEventListener('load', function () {
-                // Disable CSS animation
-                heroMarquee.style.animation = 'none';
-                heroMarquee.style.transform = 'translateX(0px)';
+                // ── Hero ticker ──────────────────────────────────────────────
+                if (heroMarquee) {
+                    heroMarquee.style.animation = 'none';
+                    heroMarquee.style.transform = 'translateX(0px)';
 
-                // The marquee has 6 copies of 2 phrases (12 items total).
-                // Half-width = the scroll distance for a seamless loop.
-                const halfWidth = heroMarquee.scrollWidth / 2;
+                    const heroHalf = heroMarquee.scrollWidth / 2;
+                    const pxPerSec = heroHalf / 17; // match desktop 17s visual speed
 
-                // Match the desktop 17s visual speed:
-                // pixelsPerSecond = halfWidth / 17s
-                const pxPerSec = halfWidth / 17;
-
-                let pos = 0;
-                let last = null;
-
-                function tick(ts) {
-                    if (!last) last = ts;
-                    const dt = (ts - last) / 1000;
-                    last = ts;
-
-                    pos -= pxPerSec * dt;
-
-                    // Seamless loop: when first half is fully scrolled, snap back
-                    if (pos <= -halfWidth) pos += halfWidth;
-
-                    heroMarquee.style.transform = 'translateX(' + pos + 'px)';
-                    requestAnimationFrame(tick);
+                    let hPos = 0, hLast = null;
+                    function heroTick(ts) {
+                        if (!hLast) hLast = ts;
+                        hPos -= pxPerSec * ((ts - hLast) / 1000);
+                        hLast = ts;
+                        if (hPos <= -heroHalf) hPos += heroHalf;
+                        heroMarquee.style.transform = 'translateX(' + hPos + 'px)';
+                        requestAnimationFrame(heroTick);
+                    }
+                    requestAnimationFrame(heroTick);
                 }
 
-                requestAnimationFrame(tick);
+                // ── Brands ticker (same visual speed as hero) ────────────────
+                if (brandsMarquee) {
+                    brandsMarquee.style.animation = 'none';
+                    brandsMarquee.style.animationDuration = '';
+                    brandsMarquee.style.transform = 'translateX(0px)';
+
+                    const brandsHalf = brandsMarquee.scrollWidth / 2;
+                    // Re-read pxPerSec from hero (already computed above)
+                    const heroHalf = heroMarquee ? heroMarquee.scrollWidth / 2 : brandsHalf;
+                    const pxPerSec = heroHalf / 17;
+
+                    let bPos = 0, bLast = null;
+                    function brandsTick(ts) {
+                        if (!bLast) bLast = ts;
+                        bPos -= pxPerSec * ((ts - bLast) / 1000);
+                        bLast = ts;
+                        if (bPos <= -brandsHalf) bPos += brandsHalf;
+                        brandsMarquee.style.transform = 'translateX(' + bPos + 'px)';
+                        requestAnimationFrame(brandsTick);
+                    }
+                    requestAnimationFrame(brandsTick);
+                }
             });
         })();
     </script>
