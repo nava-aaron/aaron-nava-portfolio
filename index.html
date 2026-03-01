@@ -587,7 +587,8 @@
 
         .marquee {
             display: inline-block;
-            animation: marquee 14s linear infinite;
+            white-space: nowrap;
+            animation: marquee 17s linear infinite;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             font-size: 1.2rem;
@@ -1125,6 +1126,16 @@
                 animation: marquee 8s linear infinite;
             }
 
+            /* Tighter gaps between ticker items on mobile */
+            .marquee span {
+                margin-right: 8vw;
+            }
+
+            /* Brands ticker on mobile: fast enough to feel alive */
+            .brands-section .marquee {
+                animation-duration: 14s !important;
+            }
+
             .marquee-container {
                 width: 100vw;
                 margin-left: calc(-1 * var(--space-vw));
@@ -1517,7 +1528,7 @@
             <div class="marquee-wrapper" style="margin-top: 4vh; border-top: none; border-bottom: none;">
                 <div class="marquee-container" style="border-top: none; border-bottom: none;">
                     <div class="marquee"
-                        style="font-weight: 500; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: none; animation-duration: 18s;">
+                        style="font-weight: 500; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: none; animation-duration: 23s;">
                         <span>Google</span><span>•</span>
                         <span>Spotify</span><span>•</span>
                         <span>Netflix</span><span>•</span>
