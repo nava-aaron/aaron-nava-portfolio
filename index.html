@@ -1895,6 +1895,52 @@
                 });
             }
         });
+
+        // ── Mobile Marquee Fix ──────────────────────────────────────────────
+        // CSS translateX(-50%) calculation is unreliable on small screens.
+        // On mobile: disable the CSS animation and drive scrolling via JS
+        // at the exact same pixels/second as the desktop 17s animation.
+        (function () {
+            if (window.innerWidth >= 768) return; // iPad and desktop: CSS handles it perfectly
+
+            // Target only the HERO ticker (inside .marquee-wrapper in the hero section)
+            const heroMarquee = document.querySelector('.hero .marquee-wrapper .marquee');
+            if (!heroMarquee) return;
+
+            // Wait for fonts/layout to settle, then measure the true half-width
+            window.addEventListener('load', function () {
+                // Disable CSS animation
+                heroMarquee.style.animation = 'none';
+                heroMarquee.style.transform = 'translateX(0px)';
+
+                // The marquee has 6 copies of 2 phrases (12 items total).
+                // Half-width = the scroll distance for a seamless loop.
+                const halfWidth = heroMarquee.scrollWidth / 2;
+
+                // Match the desktop 17s visual speed:
+                // pixelsPerSecond = halfWidth / 17s
+                const pxPerSec = halfWidth / 17;
+
+                let pos = 0;
+                let last = null;
+
+                function tick(ts) {
+                    if (!last) last = ts;
+                    const dt = (ts - last) / 1000;
+                    last = ts;
+
+                    pos -= pxPerSec * dt;
+
+                    // Seamless loop: when first half is fully scrolled, snap back
+                    if (pos <= -halfWidth) pos += halfWidth;
+
+                    heroMarquee.style.transform = 'translateX(' + pos + 'px)';
+                    requestAnimationFrame(tick);
+                }
+
+                requestAnimationFrame(tick);
+            });
+        })();
     </script>
 </body>
 
