@@ -679,6 +679,94 @@
             max-width: 35ch;
         }
 
+        /* Arc Grid Layout Refinement */
+        .arc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            column-gap: 6vw;
+            align-items: start;
+            /* Ensure the grid container takes full height of content */
+            min-height: 100%;
+        }
+
+        .arc-grid .title-container {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .arc-grid .arc-stats-column {
+            grid-column: 1;
+            grid-row: 2;
+            /* Stretch column to full row height and distribute stats */
+            align-self: stretch;
+            padding-top: 5vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arc-grid .full-arc-text {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+        }
+
+        .arc-stats-column {
+            padding-top: 2vh;
+        }
+
+        .stats-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 3vh;
+        }
+
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            /* Spread stats vertically to fill the "open space" beneath the title */
+            height: 100%;
+            justify-content: space-between;
+            gap: 6vh;
+        }
+
+        .stat-block {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2.5vh;
+        }
+
+        .stat-number {
+            /* Increased size for premium desktop impact */
+            font-size: clamp(3.5rem, 6.5vw, 7.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: var(--text-main);
+            line-height: 1;
+        }
+
+        .stat-title {
+            /* Slightly larger for clarity */
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            margin-top: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .stat-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            /* Slightly larger to match overall visual weight increase */
+            font-size: clamp(1rem, 1.1vw, 1.25rem);
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            line-height: 1.6;
+        }
+
         /* --- Case Studies (The Builds) --- */
         .build-phase {
             font-size: 0.9rem;
@@ -972,6 +1060,54 @@
             .grid-1-2 {
                 grid-template-columns: 1fr;
                 gap: 8vh;
+            }
+
+            /* Mobile Stack for Arc Grid */
+            .arc-grid {
+                grid-template-columns: 1fr;
+                gap: 6vh;
+            }
+
+            .arc-grid .title-container {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .arc-grid .full-arc-text {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .arc-grid .arc-stats-column {
+                grid-column: 1;
+                grid-row: 3;
+                align-self: stretch;
+                padding-top: 0;
+            }
+
+            .stats-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                height: auto;
+                border-top: 1px solid var(--border-color);
+                border-bottom: 1px solid var(--border-color);
+                padding: 4vh 0;
+                margin-top: 4vh;
+            }
+
+            .stat-block {
+                border-top: none;
+                padding-top: 0;
+            }
+
+            .stat-block:first-child {
+                border-right: 1px solid var(--border-color);
+                padding-right: 4vw;
+            }
+
+            .stat-block:last-child {
+                padding-left: 4vw;
             }
 
             .hero-grid {
@@ -1309,12 +1445,29 @@
 
         <!-- BEGIN: THE FULL ARC CONTENT -->
         <section id="arc" class="full-arc wrapper section-padding">
-            <div class="grid grid-1-2">
+            <div class="grid grid-1-2 arc-grid">
                 <div class="title-container reveal">
                     <h2 class="text-large">The<br><span class="font-serif italic">Full Arc</span></h2>
                 </div>
+
+                <!-- Statistics block moved into the grid -->
+                <div class="arc-stats-column reveal">
+                    <p class="stats-label">Two rooms. One standard.</p>
+                    <div class="stats-list">
+                        <div class="stat-block">
+                            <div class="stat-number">85%</div>
+                            <div class="stat-title">Win Rate on Major Global Pursuits</div>
+                            <div class="stat-sub">25+ enterprise pitches annually. $1.5M to $5M+ engagements.</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-number">85–90%</div>
+                            <div class="stat-title">AOR Retention, Four Consecutive Years</div>
+                            <div class="stat-sub">Clients stayed because the work was good and the relationships were real.</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="full-arc-text">
-                    <!-- CHANGE 1: Full Arc Positioning Refinement -->
                     <p class="reveal">I’ve spent my career in two rooms that most organizations keep separate. The one where you win the business. And the one where you actually have to deliver it.</p>
                     <p class="inter-text reveal delay-1">Most people are built for one thing. Not me.</p>
 
@@ -1404,7 +1557,7 @@
                         </div>
 
                         <div class="cs-outcome reveal">
-                            For three consecutive years I personally anchored 22 to 25 major global pursuits annually. Three hundred people became 1,200. $35M became $115M. Second highest revenue driver in the entire organization. Here’s what that scale teaches you: size can kill the instinct. The organizations that lose are the ones that let process replace accountability, and layers replace decisions. We refused to let that happen. We built the structure that scale required without losing the mindset that got us there. Fast decisions. Clear ownership. High standards. That’s what drove us.
+                            Second highest revenue driver in the entire Monks organization. Here's what that scale teaches: size can kill the instinct. We refused to let it. Fast decisions. Clear ownership. High standards. That's what drove us.
                         </div>
                     </div>
                 </div>
@@ -1568,18 +1721,14 @@
                     <h2 class="text-large" style="margin-bottom: 3vh;">15 Years<br><span class="font-serif italic">of
                             Building</span></h2>
 
-                    <ul class="timeline">
-                        <li><span>Intrapreneur</span>Conill</li>
-                        <li><span>Co-Founder & P&L</span>Joe Agency</li>
-                        <li><span>6 to 100 people</span>Circus</li>
-                        <li><span>$115M Revenue</span>Monks</li>
-                    </ul>
+                    <p class="body-text reveal" style="font-family:'Inter',sans-serif;font-size:clamp(0.9rem,1.1vw,1.2rem);color:#4A4A4A;border-left:none;padding-left:0;margin-top:3vh;margin-bottom:4vh;max-width:55ch;line-height:1.8;">I've never built the same thing twice. As an intrapreneur inside a legacy network. As a co-founder starting from zero. As an operator scaling a startup. And as an enterprise leader at global scale. Different seats. Same instinct.</p>
+
+                                        <img src="files/15-year-build-graphic-2.png" alt="Career arc: Conill to Joe Agency to Circus to Monks" class="reveal" style="width:100%; height:auto; max-height:450px; object-fit:contain; display:block; margin-top:2vh;">
                 </div>
                 <div>
-                    <p class="body-text reveal delay-1"><span class="italic">Some people manage the business. Some people build it. I've never been able to stop at managing.</span></p>
-                    <p class="body-text reveal delay-2">Four times I've walked into situations that had more potential than infrastructure, more vision than execution. And four times the answer was the same: find the intersection between the creative and the commercial, the win and the trust you build after it, and live there. That intersection isn't a balance I work to maintain. It's just where I think most clearly. From both sides of the table — what the agency needs to win, and what the client needs to grow.</p>
-                    <p class="body-text reveal delay-3">The best work I've ever been part of didn't happen because everything was running smoothly. It happened because the trust was deep enough to be honest. To push back. To tell a client what they need to hear instead of what they want to hear. That kind of trust starts with understanding who you're talking to — not theoretically, but lived. I've spent my entire career seeing the world through two cultural lenses simultaneously. I'm bilingual, bicultural, and I've built campaigns for Hispanic audiences at the highest level: Toyota, Dodge, Spotify, California Lottery. Not because I was briefed to. Because I am the market. And I've learned to build the tools that move it.</p>
-                    <p class="body-text reveal delay-4 mt-4">Those tools are changing fast. I've been deep in AI as a builder, not an observer. The credential matters less than the conviction: the pure specialist is shrinking. The next generation of high performers will direct, manage, and scale AI agents. That shift is already underway. I'm already building for it.</p>
+                    <p class="body-text reveal delay-2">Every time, the answer was the same. Find the intersection between the creative and the commercial. The win and the trust you build after it. That's not a balance I work to maintain. It's just where I think most clearly. From both sides of the table. What the agency needs to win, and what the client needs to keep winning. I don't see them as competing interests. I see them as the only way to build something that lasts.</p>
+                    <p class="body-text reveal delay-3">The best work I've done didn't happen because everything was running smoothly. It happened because the trust was deep enough to be honest. To push back. To tell a client what they need to hear instead of what they want to hear. That kind of trust starts with understanding who you're talking to. Not theoretically. Lived. I've spent my entire career seeing the world through two lenses simultaneously. Bilingual. Bicultural. I've built campaigns for Hispanic audiences at the highest level. Toyota, Dodge, Spotify, California Lottery. Not because I was briefed to. Because I am the market. And I've learned to build the tools that move it.</p>
+                    <p class="body-text reveal delay-4 mt-4">Those tools are changing fast. I've been deep in AI as an implementer, not an observer. On the client side, I was the first in my portfolio to connect Monks.flow into account workflows, reducing friction at every stage and driving a 30 to 35% margin improvement. On the growth side, I built an automation that transformed the entire new business intake process. From the moment an RFP landed to full company research, brief, and plan of attack. Five days down to 24 hours. The pure specialist is shrinking. The next generation of high performers will direct, manage, and scale AI agents. That shift is already underway. I'm already building for it.</p>
                     <p class="body-text reveal delay-5 mt-4"><span class="italic">The machine that runs without you. That's always been the goal.</span></p>
                 </div>
             </div>
